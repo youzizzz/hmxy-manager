@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author tangyouzhi
  */
 @Controller
-public class IndexController {
+public class IndexController extends BaseController {
 
     /**
      * 默认首页
