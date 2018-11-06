@@ -19,23 +19,32 @@
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
-            <h1>shshdshd</h1>
+            <table class="layui-hide" id="test"></table>
 
         </div>
     </div>
 
 
 </div>
-<table class="layui-hide" id="test"></table>
+
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
+        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
+        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+    </div>
+</script>
 <script>
     layui.use('table', function(){
         var table = layui.table;
         table.render({
             elem: '#test'
-            ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
+            ,toolbar: '#toolbarDemo'
+            // ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-            ,cols: [[
+            ,cols: [ [
+                {type: 'checkbox', fixed: 'left'},
                 {field:'cfId', width:80, title: 'ID', sort: true}
                 ,{field:'categoryName', width:80, title: '分类名'}
                 ,{field:'status', width:80, title: '状态'}
@@ -43,9 +52,32 @@
                 ,{field:'creatorDate', title: '创建时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 ,{field:'updateBy',width:80, title: '更新人'}
                 ,{field:'updateDate', title: '更新时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-            ]]
+            ] ]
+            ,page: true
         });
+
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+            };
+        });
+
+
+
     });
+
 </script>
 </body>
 </html>
