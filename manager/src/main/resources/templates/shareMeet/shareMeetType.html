@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
+</head>
+<body class="layui-layout-body">
+
+
+<div class="layadmin-tabsbody-item layui-show">
+    <div class="layui-card layadmin-header">
+        <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+            <a lay-href="">主页</a><span lay-separator="">/</span>
+            <a><cite>分享会管理</cite></a><span lay-separator="">/</span>
+            <a><cite>分享会类型模块</cite></a>
+        </div>
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <h1>shshdshd</h1>
+
+        </div>
+    </div>
+
+
+</div>
+<table class="layui-hide" id="test"></table>
+<script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+        table.render({
+            elem: '#test'
+            ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [[
+                {field:'cfId', width:80, title: 'ID', sort: true}
+                ,{field:'categoryName', width:80, title: '分类名'}
+                ,{field:'status', width:80, title: '状态'}
+                ,{field:'creatorBy', width:80, title: '创建人'}
+                ,{field:'creatorDate', title: '创建时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'updateBy',width:80, title: '更新人'}
+                ,{field:'updateDate', title: '更新时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            ]]
+        });
+    });
+</script>
+</body>
+</html>
