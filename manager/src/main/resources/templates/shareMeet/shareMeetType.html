@@ -19,7 +19,7 @@
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
-            <table class="layui-hide" id="test"></table>
+            <table class="layui-hide" id="test" lay-filter="test"></table>
 
         </div>
     </div>
@@ -41,7 +41,7 @@
         table.render({
             elem: '#test'
             ,toolbar: '#toolbarDemo'
-            // ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
+             ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
                 {type: 'checkbox', fixed: 'left'},
@@ -55,7 +55,6 @@
             ] ]
             ,page: true
         });
-
         //头工具栏事件
         table.on('toolbar(test)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
@@ -73,10 +72,8 @@
                     break;
             };
         });
-
-
-
     });
+
 
 </script>
 </body>
