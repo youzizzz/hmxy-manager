@@ -46,23 +46,23 @@
             <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
             <ul class="layui-nav layui-nav-tree"  lay-filter="test">
                 <li class="layui-nav-item">
-                    <a class="" href="javascript:;">消息管理</a>
+                    <a class="" href="javascript:;">系统模块</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">消息模块</a></dd>
-                        <dd><a href="javascript:;">地址模块</a></dd>
+                        <dd><a href="javascript:;" src="message/toMessagePage">消息管理</a></dd>
+                        <dd><a href="javascript:;">地址管理</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">分享会管理</a>
+                    <a href="javascript:;">分享会模块</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">分享会管理模块</a></dd>
-                        <dd><a href="javascript:;" lay-href="shareMeet/toShareMeetTypePage">分享会类型模块</a></dd>
+                        <dd><a href="javascript:;">分享会管理</a></dd>
+                        <dd><a href="javascript:;" src="shareMeet/toShareMeetTypePage">分享会类型</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item">
-                    <a href="javascript:;">用户管理</a>
+                    <a href="javascript:;">用户模块</a>
                     <dl class="layui-nav-child">
-                        <dd><a href="javascript:;">用户模块</a></dd>
+                        <dd><a href="javascript:;">用户管理</a></dd>
                     </dl>
                 </li>
             </ul>
@@ -70,9 +70,8 @@
     </div>
 
     <div class="layui-body">
-        <iframe id="content_iframe" width="100%" height="100%"></iframe>
+        <iframe id="content_iframe" width="100%" src="toDefaultPage" height="100%"></iframe>
     </div>
-
     <div class="layui-footer">
         <!-- 底部固定区域 -->
         © layui.com - 底部固定区域
@@ -95,47 +94,10 @@
             var element = layui.element;
 
         });
-
-        // layui.use('table', function(){
-        //     var table = layui.table;
-        //     table.render({
-        //         elem: '#ppy'
-        //         ,toolbar: '#toolbarDemo'
-        //         ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
-        //         ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
-        //         ,cols: [ [
-        //             {type: 'checkbox', fixed: 'left'},
-        //             {field:'cfId', width:80, title: 'ID', sort: true}
-        //             ,{field:'categoryName', width:80, title: '分类名'}
-        //             ,{field:'status', width:80, title: '状态'}
-        //             ,{field:'creatorBy', width:80, title: '创建人'}
-        //             ,{field:'creatorDate', title: '创建时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-        //             ,{field:'updateBy',width:80, title: '更新人'}
-        //             ,{field:'updateDate', title: '更新时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-        //         ] ]
-        //         ,page: true
-        //     });
-        //
-        //     //头工具栏事件
-        //     table.on('toolbar(ppy)', function(obj){
-        //         var checkStatus = table.checkStatus(obj.config.id);
-        //         switch(obj.event){
-        //             case 'getCheckData':
-        //                 var data = checkStatus.data;
-        //                 layer.alert(JSON.stringify(data));
-        //                 break;
-        //             case 'getCheckLength':
-        //                 var data = checkStatus.data;
-        //                 layer.msg('选中了：'+ data.length + ' 个');
-        //                 break;
-        //             case 'isAll':
-        //                 layer.msg(checkStatus.isAll ? '全选': '未全选');
-        //                 break;
-        //         };
-        //     });
-        //     console.info(table)
-        // });
-        $("#content_iframe").attr("src", "shareMeet/toShareMeetTypePage")
+        //菜单click事件
+        $(".layui-nav-child dd a").click(function(){
+            $("#content_iframe").attr("src",$(this).attr("src"))
+        });
     })
 </script>
 </body>

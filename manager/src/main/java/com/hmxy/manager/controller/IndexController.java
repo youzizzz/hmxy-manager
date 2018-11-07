@@ -18,4 +18,12 @@ public class IndexController extends BaseController {
     public String index() {
         return "index";
     }
+
+    /**
+     * 跳转到默认页面
+     */
+    @GetMapping("/toDefaultPage")
+    public String toDefaultHtml(){
+        return "mainPage";
+    }
 }

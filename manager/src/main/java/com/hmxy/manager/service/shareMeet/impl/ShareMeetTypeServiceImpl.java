@@ -5,9 +5,9 @@ import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
-import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
 import com.hmxy.manager.dao.shareMeet.ShareMeetTypeDao;
-import com.hmxy.manager.util.BeanUtil;
+import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
+import com.hmxy.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,13 +39,6 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
         List<ClassIficationDTO> list = new ArrayList<ClassIficationDTO>();
         list = shareMeetTypeDao.shareMeetTypeList(paramMap);
         Page<ClassIficationDTO> page = (Page)list;
-
-        /*if(null!=list&&list.size()>0){
-            pageInfoResult.setRows(list);
-        }
-        int count = 0 ;
-        count = shareMeetTypeDao.shareMeetTypeListCount(paramMap);
-        pageInfoResult.setCount(count);*/
         return PageUtils.convertPage(page);
     }
 }
