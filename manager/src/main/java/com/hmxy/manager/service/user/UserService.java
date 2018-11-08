@@ -1,6 +1,5 @@
 package com.hmxy.manager.service.user;
 
-import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.http.PageInfo;
 

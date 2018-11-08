@@ -1,5 +1,6 @@
 package com.hmxy.manager.controller;
 
+import com.hmxy.dto.UserInfoDTO;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -40,10 +41,18 @@ public class BaseController implements Serializable {
     }
 
     @ModelAttribute
-    private void init(HttpServletRequest request,HttpServletResponse response) {
+    private void init(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
-        this.response=response;
+        this.response = response;
         this.session = request.getSession();
+    }
+
+    /**
+     * 获取当前登录用户
+     * @return
+     */
+    protected UserInfoDTO findCurrentUser(){
+       return (UserInfoDTO) session.getAttribute(storageName);
     }
 
 }

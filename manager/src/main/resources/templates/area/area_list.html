@@ -4,17 +4,21 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <title>layout 后台大布局 - Layui</title>
-    <link rel="stylesheet" href="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
 </head>
 <body class="layui-layout-body">
-
-
+<link rel="stylesheet" href="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
+<style>
+    body .layui-layer-red .layui-layer-title{background:white; color:red; border: none;}
+    body .layui-layer-red .layui-layer-btn{border-top:1px solid #E9E7E7}
+    body .layui-layer-red .layui-layer-btn a{background:red;}
+    body .layui-layer-red .layui-layer-btn .layui-layer-btn1{background:#999;}
+</style>
 <div class="layadmin-tabsbody-item layui-show">
     <div class="layui-card layadmin-header">
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a lay-href="">主页</a><span lay-separator="">/</span>
-            <a><cite>消息管理</cite></a><span lay-separator="">/</span>
-            <a><cite>消息模块</cite></a>
+            <a><cite>系统模块</cite></a><span lay-separator="">/</span>
+            <a><cite>地址管理</cite></a>
         </div>
     </div>
     <div class="layui-fluid">
@@ -28,11 +32,46 @@
 </div>
 
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
         <button class="layui-btn layui-btn-sm" lay-event="insertArea">新增</button>
     </div>
 </script>
+<div id="layModalDialog" style="display: none;">
+    <form class="layui-form" action="" id="areaForm">
+        <div class="layui-form-item">
+            <label class="layui-form-label">省份编码:</label>
+            <div class="layui-input-block">
+                <input type="text" name="provinceCode" lay-verify="provinceCode"  autocomplete="off" placeholder="请输入省份编码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">省份名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="provinceName" lay-verify="provinceName" autocomplete="off" placeholder="请输入省份名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">城市编码:</label>
+            <div class="layui-input-block">
+                <input type="text" name="cityCode" lay-verify="cityCode" required autocomplete="off" placeholder="请输入城市编码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">城市名称:</label>
+            <div class="layui-input-block">
+                <input type="text" name="cityName" lay-verify="cityName" required autocomplete="off" placeholder="请输入城市名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit="" lay-filter="areaForm">立即提交</button>
+                <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+            </div>
+        </div>
+    </form>
+</div>
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -42,21 +81,25 @@
 <script>
     layui.use('table', function(){
         var table = layui.table;
+        var form=layui.form;
         table.render({
             elem: '#areaTable'
             ,toolbar: '#toolbarDemo'
-            ,url:'http://localhost:9099/hmxy-manager/message/listPage'
+            ,url:'http://localhost:9099/hmxy-manager/area/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
                 {type: 'checkbox', fixed: 'left'},
-                {field:'cfId', width:80, title: 'ID', sort: true}
-                ,{field:'categoryName', width:80, title: '分类名'}
-                ,{field:'status', width:80, title: '状态'}
-                ,{field:'creatorBy', width:80, title: '创建人'}
-                ,{field:'creatorDate', title: '创建时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{field:'updateBy',width:80, title: '更新人'}
-                ,{field:'updateDate', title: '更新时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                {field:'areId', minWidth:80, title: 'ID', sort: true}
+                ,{field:'cityCode', minWidth:80, title: '城市编码'},
+                {field:'cityName', minWidth:80, title: '城市名称'},
+                {field:'provinceCode', minWidth:80, title: '省份编码'},
+                {field:'provinceName', minWidth:80, title: '省份名称'}
+                ,{field:'status', minWidth:80, title: '状态'}
+                ,{field:'creatorBy', minWidth:80, title: '创建人'}
+                ,{field:'creatorDate', title: '创建时间', minWidth: 80} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'updateBy',minWidth:80, title: '更新人'}
+                ,{field:'updateDate', title: '更新时间', minWidth: 80} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:200}
             ] ]
             ,page: true
         });
@@ -65,8 +108,42 @@
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
                 case 'insertArea':
+                    layer.open({
+                        type: 1
+                        ,title: "新增地址" //不显示标题栏
+                        ,maxmin: true
+                        ,area: '500px;'
+                        ,shade: 0
+                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                        ,btnAlign: 'c'
+                        ,moveType: 1 //拖拽模式，0或者1
+                        ,content:$("#layModalDialog").html()
+                        ,success: function(){
+                            console.info("加载完成");
+                        }
+                    });
                     break;
             };
+            //监听提交
+            form.on('submit(areaForm)', function(data){
+                var data=JSON.stringify(data.field);
+                $.get('/hmxy-manager/area/checkAreaExists',{data},function(result){
+                   if(result.data=="success"){
+                       $.post('/hmxy-manager/area/addArea',{data},function (res) {
+                           if(res.data=="success"){
+                               table.reload('areaTable',table.options);
+                               layer.close();
+                           }
+                       },'JSON');
+                       return false;
+                   }
+                    layer.alert(result.message, {
+                        skin: 'layui-layer-red' //样式类名
+                        ,closeBtn: 0
+                    });
+                },"JSON");
+                return false;
+            });
         });
     });
 </script>

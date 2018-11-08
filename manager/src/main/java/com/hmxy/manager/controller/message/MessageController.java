@@ -38,7 +38,7 @@ public class MessageController extends BaseController {
     /**
      * 信息类型分页查询
      * @author tangyouzhi
-     * @param MessageDTO
+     * @param messageDTO
      * @param page
      * @param limit
      * @return

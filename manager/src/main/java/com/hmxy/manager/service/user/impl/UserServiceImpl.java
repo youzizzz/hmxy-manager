@@ -56,6 +56,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param userInfoDTO
      */
+    @Override
     public List<UserInfoDTO> login(UserInfoDTO userInfoDTO) {
         return userDao.login(userInfoDTO);
     }
