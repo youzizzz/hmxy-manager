@@ -2,187 +2,80 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>MyBlog-Admin</title>
-    <link rel="stylesheet" href="/layui-v2.2.6/layui/css/layui.css">
-    <script src="/layui-v2.2.6/layui/jquery.js"></script>
-    <script src="/layui-v2.2.6/layui/layui.js"></script>
-    <link rel="shortcut icon" href="/youzi.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="https://www.tangyouzhi.com/layui-v2.2.6/layui/css/layui.css"/>
 </head>
 <body class="layui-layout-body">
-<div class="layui-layout layui-layout-admin">
-    <div class="layui-header">
-        <div class="layui-logo">MyBlog-后台管理</div>
-        <!-- 头部区域（可配合layui已有的水平导航） -->
-        <ul class="layui-nav layui-layout-left">
-            <li class="layui-nav-item"><a href="">控制台</a></li>
-            <!--  <li class="layui-nav-item"><a href="">商品管理</a></li>
-  <li class="layui-nav-item"><a href="">用户</a></li>
-  <li class="layui-nav-item">
-    <a href="javascript:;">其它系统</a>
-    <dl class="layui-nav-child">
-      <dd><a href="">邮件管理</a></dd>
-      <dd><a href="">消息管理</a></dd>
-      <dd><a href="">授权管理</a></dd>
-    </dl>
-  </li> -->
-        </ul>
-        <ul class="layui-nav layui-layout-right">
-            <li class="layui-nav-item"><a href="javascript:;"> <img
-                    src="http://t.cn/RCzsdCq" class="layui-nav-img"> 柚子
-            </a>
-                <dl class="layui-nav-child">
-                    <dd>
-                        <a href="">基本资料</a>
-                    </dd>
-                    <dd>
-                        <a href="">安全设置</a>
-                    </dd>
-                </dl></li>
-            <li class="layui-nav-item"><a href="">退出</a></li>
-        </ul>
-    </div>
-
-    <div class="layui-side layui-bg-black">
-        <div class="layui-side-scroll">
-            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
-            <ul class="layui-nav layui-nav-tree" lay-filter="test">
-                <li class="layui-nav-item layui-nav-itemed"><a
-                        class="parentMenu" href="javascript:;">用户管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" url="/admin/user/userList.html">用户列表</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" url="/admin/userlog/userLogList.html">用户登录日志</a>
-                        </dd>
-                    </dl></li>
-                <li class="layui-nav-item"><a href="javascript:;"
-                                              class="parentMenu">博客管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" url="/admin/article/articleForm.html">新增博客</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" url="/admin/article/articleList.html">博客列表</a>
-                        </dd>
-                    </dl></li>
-                <li class="layui-nav-item"><a href="javascript:;"
-                                              class="parentMenu">标签管理</a>
-                    <dl class="layui-nav-child">
-                        <dd>
-                            <a href="javascript:;" url="/admin/technical/technicalList.html">标签列表</a>
-                        </dd>
-                        <dd>
-                            <a href="javascript:;" url="/admin/technical/technicalForm">新增标签</a>
-                        </dd>
-                    </dl></li>
-                <li class="layui-nav-item"><a href="javascript:;" url="/admin/sys/hotArticle">热门推送</a></li>
-                <input th:if="${url!=null}" th:value="${url}" type="hidden" id="urls" />
-            </ul>
-        </div>
-    </div>
-
-    <div class="layui-body">
-        <!-- 内容主体区域 -->
-        <div style="height: 100%" id="body">
-            <!-- <table id="demo"  th:fragment="userList" lay-filter="test"></table> -->
-            <iframe src="/admin/user/userList.html" frameborder="0" width="100%"
-                    height="95%" id="bodyframe"></iframe>
-        </div>
-    </div>
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © www.tangyouzhi.com
+<div class="layui-input-inline">
+    <button type="button" onclick="selectRole()" class="layui-btn layui-btn-primary layui-btn-radius">选择角色</button>
+</div>
+<!-- 选择角色的按钮 -->
+<div class="layui-row" id="popSearchRoleTest" style="display:none;">
+    <div class="layui-col-md11">
+        <form class="layui-form" lay-filter="formTestFilter2121" >
+            <div class="layui-form-item">
+                <label class="layui-form-label">用户名：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="userName"  class="layui-input">
+                </div>
+                <label class="layui-form-label">密码：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="password"  class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">角色：</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="roleName" class="layui-input">
+                </div>
+                <div class="layui-input-inline">
+                    <button onclick="selectRole()" class="layui-btn layui-btn-primary layui-btn-radius">选择角色</button>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注：</label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" class="layui-textarea" name="userDescription"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button type="button" class="layui-btn layui-btn-normal">提交</button>
+                </div>
+            </div>
+        </form>
     </div>
 </div>
+
+
+
+
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/layui.js"></script>
+
+
 <script type="text/javascript">
-    layui.use('element', function() {
-        var element = layui.element;
-
-    });
-    $(function() {
-        var arr = {
-            "/admin/user/userList.html" : "用户列表",
-            "/admin/userlog/userLogList.html" : "用户登录日志",
-            "/admin/article/articleForm.html" : "新增博客",
-            "/admin/article/articleList.html" : "博客列表",
-            "/admin/technical/technicalList.html" : "标签列表",
-            "/admin/technical/technicalForm" : "新增标签",
-            "/admin/sys/hotArticle":"热门推送"
-        };
-
-        var blank_url=$("#urls").val();
-        $("#bodyframe").attr("src",blank_url);
-        var currentUrl = $("#bodyframe").attr("src");
-        var currentVal = arr[currentUrl];
-
-        //layui-nav-itemed
-        $(".layui-nav-tree a:not(.parentMenu)").each(function() {
-            if ($(this).text() == currentVal) {
-                $(this).parent().addClass("layui-this");
-                $(this).parents("li").addClass("layui-nav-itemed");
-                $(this).parents("li").siblings().removeClass("layui-nav-itemed");
-                $("head title").text("MyBlog-"+currentVal);
-            }
-        });
-        $(".layui-nav-tree a:not(.parentMenu)").click(function() {
-            var url = $(this).attr("url");
-            $("#bodyframe").attr("src", url);
-            var currentVal = arr[url];
-            $("head title").text("MyBlog-"+currentVal);
-        });
-    })
-</script>
-<!-- <script>
     //JavaScript代码区域
-    layui.use('element', function() {
+    layui.use('element', function(){
         var element = layui.element;
 
     });
-    $(function() {
-        layui.use('table', function() {
-            var table = layui.table;
-
-            //第一个实例
-            table.render({
-                elem : '#demo',
-                height : 315,
-                url : '/admin/user/list' //数据接口
-                ,
-                page : true //开启分页
-                ,
-                cols : [ [ //表头
-                {
-                    field : 'id',
-                    title : 'ID',
-                    width : 200,
-                    sort : true,
-                    fixed : 'left'
-                }, {
-                    field : 'userName',
-                    title : '用户名',
-                    width : 200
-                },{
-                    field : 'createDate',
-                    title : '创建时间',
-                    width : 200
-                },{
-                    field : 'lastUpdate',
-                    title : '最后修改时间',
-                    width : 200
-                }
-                ,{
-                    field:'email',
-                    title:'Email',
-                    width:200
-                }] ]
-            });
-
+</script>
+<script>
+    //选择角色弹层
+    function selectRole(){
+        layer.open({
+            //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+            type:1,
+            title:"查找用户角色",
+            area: ['50%','50%'],
+            content:$("#popSearchRoleTest").html()
         });
-    })
-</script> -->
+    }
+
+
+
+</script>
 </body>
 </html>

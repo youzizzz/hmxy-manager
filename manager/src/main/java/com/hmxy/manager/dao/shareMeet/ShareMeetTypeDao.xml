@@ -53,4 +53,10 @@
     where t.cf_id = #{cfId}
   </update>
 
+
+  <select id="getShareMeetById"  parameterType="String" resultMap="BaseResultMap">
+    select t.* from sys_classification t
+    where t.cf_id = #{cfId}
+  </select>
+
 </mapper>

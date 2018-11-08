@@ -23,7 +23,7 @@ import java.io.IOException;
  * @author tangyouzhi
  */
 @SpringBootApplication
-@MapperScan("com.hmxy.manager.dao")
+@MapperScan("common.hmxy.manager.dao")
 public class MainApplication {
 
     public static void main(String[] args) {

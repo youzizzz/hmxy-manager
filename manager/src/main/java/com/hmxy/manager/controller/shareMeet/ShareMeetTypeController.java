@@ -52,10 +52,40 @@ public class ShareMeetTypeController extends BaseController {
         return pageInfoResult;
     }
 
+    /**
+     * 分享会类型新增
+     * @author liangj
+     * @param classIficationDTO
+     * @return
+     */
     @RequestMapping(value = "/shareMeetModalAdd",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO){
         return shareMeetTypeService.shareMeetModalAdd(classIficationDTO);
+    }
+
+    /**
+     * 分享会类型更新
+     * @author liangj
+     * @param classIficationDTO
+     * @return
+     */
+    @RequestMapping(value = "/shareMeetModalUpdate",method = RequestMethod.POST)
+    @ResponseBody
+    public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO){
+        return shareMeetTypeService.shareMeetModalUpdate(classIficationDTO);
+    }
+
+    /**
+     * 通过id获取分享会类型
+     * @author liangj
+     * @param cfId
+     * @return
+     */
+    @RequestMapping(value = "/getShareMeetById",method = RequestMethod.POST)
+    @ResponseBody
+    public ClassIficationDTO getShareMeetById(String cfId){
+        return shareMeetTypeService.getShareMeetById(cfId);
     }
 
 }

@@ -3,12 +3,15 @@ package com.hmxy.manager.service.shareMeet.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.ClassIficationDTO;
+import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
 import com.hmxy.http.Response;
 import com.hmxy.manager.dao.shareMeet.ShareMeetTypeDao;
 import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
 import com.hmxy.util.BeanUtil;
+import com.hmxy.util.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +45,8 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
     }
 
     public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO) {
-        Response<String> response = new Response<String>();
         Date date = new Date();
-        String uuid = UUID.randomUUID().toString().substring(0,8);
+        String uuid = UUIDUtil.generateUUID();
         classIficationDTO.setCfId(uuid);
         classIficationDTO.setCreatorBy("1");
         classIficationDTO.setCreatorDate(date);
@@ -53,18 +55,35 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
 
         int count = 0;
         count = shareMeetTypeDao.shareMeetModalAdd(classIficationDTO);
-        if(count>0){
-//            response.s
+        if(count<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型插入失败");
         }
-        return null;
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage("分享会类型插入成功");
     }
 
     public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO) {
+
+        if(StringUtils.isBlank(classIficationDTO.getCfId())){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型更新,id不能为空");
+        }
+
         Date date = new Date();
         classIficationDTO.setUpdateBy("1");
         classIficationDTO.setUpdateDate(date);
         int count = 0;
         count = shareMeetTypeDao.shareMeetModalUpdate(classIficationDTO);
+        if(count<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型更新失败");
+        }
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage("分享会类型更新成功");
+    }
+
+    public ClassIficationDTO getShareMeetById(String cfId) {
+        List<ClassIficationDTO> list = new ArrayList<ClassIficationDTO>();
+        list = shareMeetTypeDao.getShareMeetById(cfId);
+        if(null!=list&&list.size()>0){
+            return list.get(0);
+        }
         return null;
     }
 }

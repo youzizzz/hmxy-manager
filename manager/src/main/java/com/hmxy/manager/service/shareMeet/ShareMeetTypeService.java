@@ -36,4 +36,12 @@ public interface ShareMeetTypeService {
      * @return
      */
     Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO);
+
+    /**
+     * 通过id获取分享会类型
+     * @author liangj
+     * @param cfId
+     * @return
+     */
+    ClassIficationDTO getShareMeetById(String cfId);
 }

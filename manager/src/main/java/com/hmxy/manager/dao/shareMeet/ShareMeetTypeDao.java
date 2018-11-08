@@ -34,4 +34,11 @@ public interface ShareMeetTypeDao {
      * @return
      */
     int shareMeetModalUpdate(ClassIficationDTO classIficationDTO);
+
+    /**
+     * 通过id获取分享会类型
+     * @param cfId
+     * @return
+     */
+    List<ClassIficationDTO> getShareMeetById(String cfId);
 }
