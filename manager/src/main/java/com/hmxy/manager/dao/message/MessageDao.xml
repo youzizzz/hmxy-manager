@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmxy.manager.dao.message.MessageDao">
+  <resultMap id="BaseResultMap" type="com.hmxy.dto.MessageDTO">
+
+    <id column="message_id" jdbcType="VARCHAR" property="messageId" />
+    <result column="creator_by" jdbcType="VARCHAR" property="creatorBy" />
+    <result column="creator_date" jdbcType="TIMESTAMP" property="creatorDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="message_title" jdbcType="VARCHAR" property="messageTitle" />
+    <result column="message_content" jdbcType="VARCHAR" property="messageContent" />
+    <result column="message_type" jdbcType="CHAR" property="messageType" />
+    <result column="message_read" jdbcType="CHAR" property="messageRead" />
+    <result column="status" jdbcType="CHAR" property="status" />
+  </resultMap>
+
+  <select id="messageList"  resultMap="BaseResultMap">
+    select m.* from sys_message m
+    where 1 = 1
+    <!--<if test="">-->
+      <!--and t.-->
+    <!--</if>-->
+
+  </select>
+
+
+</mapper>
