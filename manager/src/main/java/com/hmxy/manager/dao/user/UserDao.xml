@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmxy.manager.dao.user.UserDao">
+  <resultMap id="BaseResultMap" type="com.hmxy.dto.UserInfoDTO">
+
+    <id column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="creator_by" jdbcType="VARCHAR" property="creatorBy" />
+    <result column="creator_date" jdbcType="TIMESTAMP" property="creatorDate" />
+    <result column="update_by" jdbcType="VARCHAR" property="updateBy" />
+    <result column="update_date" jdbcType="TIMESTAMP" property="updateDate" />
+    <result column="username" jdbcType="VARCHAR" property="username" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="user_decription" jdbcType="VARCHAR" property="userDecription" />
+    <result column="certificateCode" jdbcType="VARCHAR" property="certificateCode" />
+    <result column="birthDate" jdbcType="VARCHAR" property="birthDate" />
+    <result column="jobName" jdbcType="VARCHAR" property="jobName" />
+    <result column="sex" jdbcType="CHAR" property="sex" />
+    <result column="status" jdbcType="CHAR" property="status" />
+
+  </resultMap>
+
+  <!-- 公共查询 -->
+  <sql id="selectUserPrefix">
+    SELECT u.* from sys_user u
+  </sql>
+
+
+  <select id="userList"  parameterType="java.util.Map" resultMap="BaseResultMap">
+    <include refid="selectUserPrefix"></include>
+    where 1 = 1
+    <!--<if test="">-->
+      <!--and t.-->
+    <!--</if>-->
+
+  </select>
+
+  <!-- 登录 -->
+  <select id="login" parameterType="com.hmxy.dto.UserInfoDTO" resultMap="BaseResultMap">
+    <include refid="selectUserPrefix"></include>
+     where username=#{username} and password=#{password} and status='0'
+  </select>
+
+
+</mapper>

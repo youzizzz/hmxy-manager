@@ -26,25 +26,25 @@
 	  <div class='login_fields'>
 	    <div class='login_fields__user'>
 	      <div class='icon'>
-	        <img alt="" src='/user_icon_copy.png'>
+	        <img alt="" src='https://www.tangyouzhi.com/user_icon_copy.png'>
 	      </div>
 	      <input name="login" placeholder='用户名' maxlength="16" type='text' autocomplete="off"/>
 	        <div class='validation'>
-	          <img alt="" src='/tick.png'>
+	          <img alt="" src='https://www.tangyouzhi.com/tick.png'>
 	        </div>
 	    </div>
 	    <div class='login_fields__password'>
 	      <div class='icon'>
-	        <img alt="" src='/lock_icon_copy.png'>
+	        <img alt="" src='https://www.tangyouzhi.com/lock_icon_copy.png'>
 	      </div>
 	      <input name="pwd" placeholder='密码' maxlength="16" type='password' autocomplete="off">
 	      <div class='validation'>
-	        <img alt="" src='/tick.png'>
+	        <img alt="" src='https://www.tangyouzhi.com/tick.png'>
 	      </div>
 	    </div>
 	    <div class='login_fields__password'>
 	      <div class='icon'>
-	        <img alt="" src='/key.png'>
+	        <img alt="" src='https://www.tangyouzhi.com/key.png'>
 	      </div>
 	      <input name="code" placeholder='验证码' maxlength="4" type='text' autocomplete="off">
 	      <div class='validation' style="opacity: 1; right: -5px;top: -3px;">
@@ -71,11 +71,11 @@
 	<div class="OverWindows"></div>
 	
 	
-	<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
-	<script type="text/javascript" src='/js/stopExecutionOnTimeout.js?t=1'></script>
-    <script type="text/javascript" src="/js/Particleground.js"></script>
-    <script type="text/javascript" src="/js/Treatment.js"></script>
-    <script type="text/javascript" src="/js/jquery.mockjax.js"></script>
+	<script type="text/javascript" src="https://www.tangyouzhi.com/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src='https://www.tangyouzhi.com/js/stopExecutionOnTimeout.js?t=1'></script>
+    <script type="text/javascript" src="https://www.tangyouzhi.com/js/Particleground.js"></script>
+    <script type="text/javascript" src="https://www.tangyouzhi.com/js/Treatment.js"></script>
+    <script type="text/javascript" src="https://www.tangyouzhi.com/js/jquery.mockjax.js"></script>
 	<script type="text/javascript">
 		var canGetCookie = 0;//是否支持存储Cookie 0 不支持 1 支持
 		var ajaxmockjax = 1;//是否启用虚拟Ajax的请求响 0 不启用  1 启用
@@ -167,13 +167,12 @@
 	                }, 500);
 
 	                //登录
-	                var JsonData = { userName: login, password: pwd, code: code };
+	                var JsonData = { username: login, password: pwd, code: code };
 					//此处做为ajax内部判断
-					var url = "/admin/user/login";
+					var url = "userLogin";
 					
 	                $.post(url, JsonData, function (data) {
-	                                	console.info(data);
-	                                    //ajax返回 
+	                                    //ajax返回
 	                                    //认证完成
 	                                    setTimeout(function () {
 	                                        $('.authent').show().animate({ right: 90 }, {
@@ -188,23 +187,24 @@
 	                                        $('.login').removeClass('testtwo'); //平移特效
 	                                    }, 2000);
 	                                    setTimeout(function () {
+	                                        console.info(data)
 	                                        $('.authent').hide();
 	                                        $('.login').removeClass('test');
-	                                        if (data == 'ok') {
+	                                        if (data.data == 'ok') {
 	                                            //登录成功
 	                                            $('.login div').fadeOut(100);
 	                                            $('.success').fadeIn(1000);
 	                                            $('.success').html("登录成功<br /><br />欢迎回来");
 												//跳转操作
-	                                        } else if(data=='error') {
+	                                        } else if(data.data=='error') {
 	                                        	 //登录失败
 	                                            $('.login div').fadeOut(100);
 	                                            $('.success').fadeIn(1000);
 	                                           layer.msg("账号名或密码或验证码有误");
 	                                        }else{
-	                                        	AjaxErro(data);
+	                                        	//AjaxErro(data);
 	                                        }
-	                                        window.location.href="/admin/home";
+	                                       window.location.href="/hmxy-manager/index";
 	                                    }, 2400);
 	                                })
 	            }
@@ -222,20 +222,6 @@
 	            //浏览器不支持全屏API或已被禁用  
 	        }
 	    }  
-		if(ajaxmockjax == 1){
-			$.mockjax({  
-				url: 'Ajax/Login',  
-				status: 200,  
-				responseTime: 50,          
-				responseText: {"Status":"ok","Text":"登录成功<br /><br />欢迎回来"}  
-			}); 
-			$.mockjax({  
-				url: 'Ajax/LoginFalse',  
-				status: 200,  
-				responseTime: 50,          
-				responseText: {"Status":"Erro","Erro":"账号名或密码或验证码有误"}
-			});   
-		}
     </script>
 	<!-- <div id="top"></div>
 	<div id="center">
