@@ -8,7 +8,7 @@ import java.util.Map;
 
 /**
  * @discripeion:
- * @author: YM10147
+ * @author: liangj
  * @date: 2018/11/6 10:22
  */
 @Mapper
@@ -21,10 +21,17 @@ public interface ShareMeetTypeDao {
      */
     List<ClassIficationDTO> shareMeetTypeList( Map<String, Object> map);
 
-//    /**
-//     * 分享会类型总数
-//     * @param map
-//     * @return
-//     */
-//    int shareMeetTypeListCount(Map<String, Object> map);
+    /**
+     * 分享会类型新增
+     * @param classIficationDTO
+     * @return
+     */
+    int shareMeetModalAdd(ClassIficationDTO classIficationDTO);
+
+    /**
+     * 分享会类型更新
+     * @param classIficationDTO
+     * @return
+     */
+    int shareMeetModalUpdate(ClassIficationDTO classIficationDTO);
 }

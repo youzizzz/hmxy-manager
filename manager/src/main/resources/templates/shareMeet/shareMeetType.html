@@ -13,35 +13,69 @@
     <div class="layui-card layadmin-header">
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a lay-href="">主页</a><span lay-separator="">/</span>
-            <a><cite>分享会模块</cite></a><span lay-separator="">/</span>
-            <a><cite>分享会管理</cite></a>
+            <a><cite>分享会管理</cite></a><span lay-separator="">/</span>
+            <a><cite>分享会类型模块</cite></a>
         </div>
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
-            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <table class="layui-hide" id="admin" lay-filter="admin"></table>
 
+        </div>
+    </div>
+    <!-- 新增修改页面 -->
+    <div class="layui-row" id="shareMeetModal" style="display:none;">
+        <div class="layui-col-md11">
+            <form class="layui-form" lay-filter="formTestFilter2121" >
+                <input type="text" name="cfId" hidden="hidden">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类名</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="categoryName" lay-verify="required" autocomplete="off" placeholder="请输入分类名"
+                               class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">状态</label>
+                    <div class="layui-input-block">
+                        <select name="status"  lay-verify="required" lay-filter="aihao">
+                            <option value=""></option>
+                            <option value="0">有效</option>
+                            <option value="1">无效</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
 
 </div>
 
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <button class="layui-btn layui-btn-sm" lay-event="shareMeetAdd">新增</button>
     </div>
 </script>
+
+
 <script>
-    layui.use('table', function(){
+    layui.use(['table','form', 'layedit', 'laydate'], function(){
         var table = layui.table;
+        var form = layui.form; //只有执行了这一步，部分表单元素才会自动修饰成功
+        var layedit = layui.layedit;
+        var laydate = layui.laydate;
         table.render({
-            elem: '#test'
+            elem: '#admin'
             ,toolbar: '#toolbarDemo'
-             ,url:'http://localhost:9099/hmxy-manager/shareMeet/listPage'
+            ,url:'/hmxy-manager/shareMeet/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
                 {type: 'checkbox', fixed: 'left'},
@@ -55,26 +89,115 @@
             ] ]
             ,page: true
         });
+
         //头工具栏事件
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(admin)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'getCheckData':
-                    var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
+                case 'shareMeetAdd':
+                    //示范一个公告层
+                    layer.open({
+                        //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                        type:1,
+                        title:"新增分享会类型",
+                        skin: 'layui-layer-rim',
+                        area: ['50%','50%'],
+                        content:$("#shareMeetModal").html(),
+                        // btn:["立即提交"],
+                        // yes:function (layero, index) {
+                        //     form.on('submit(demo1)', function(data){
+                        //         layer.alert(JSON.stringify(data.field), {
+                        //             title: '最终的提交信息'
+                        //         })
+                        //         return false;
+                        //     });
+                        //     shareMeetModalAdd();
+                        // },
+                        success: function(){
+                            form.render();
+                        }
+                    });
+
                     break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
-                    break;
+                // case 'getCheckLength':
+                //     var data = checkStatus.data;
+                //     layer.msg('选中了：'+ data.length + ' 个');
+                //     break;
+                // case 'isAll':
+                //     layer.msg(checkStatus.isAll ? '全选': '未全选');
+                //     break;
             };
         });
+
+
+
+        //创建一个编辑器
+        var editIndex = layedit.build('LAY_demo_editor');
+
+        //自定义验证规则
+        form.verify({
+            title: function(value){
+                if(value.length < 5){
+                    return '标题至少得5个字符啊';
+                }
+            }
+            ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+            ,content: function(value){
+                layedit.sync(editIndex);
+            }
+        });
+        //监听提交
+        form.on('submit(demo1)', function(data){
+            shareMeetModalAddOrUpdate(data);
+            return false;
+        });
+
+
     });
 
+    /**
+     * 分享会类型新增
+     */
+    function shareMeetModalAddOrUpdate(data) {
+        var cfId = data.field.cfId;
+        if(null!=cfId&&undefined!=cfId&&"undefined"!=cfId&&""!=cfId){
+            $.ajax({
+                url: '/hmxy-manager/shareMeet/shareMeetModalUpdate',
+                type: 'POST',
+                data: data.field,
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.code = '0') {
+                        parent.closeIframe(res.msg);
+                    }
+                    else
+                        alert(res.msg);
+                },
+                error: function (data) {
+                }
+            });
+        }else{
+            $.ajax({
+                url: '/hmxy-manager/shareMeet/shareMeetModalAdd',
+                type: 'POST',
+                data: data.field,
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.code = '0') {
+                        parent.closeIframe(res.msg);
+                    }
+                    else
+                        alert(res.msg);
+                },
+                error: function (data) {
+                }
+            });
+        }
+
+
+    }
 
 </script>
+
 </body>
 </html>

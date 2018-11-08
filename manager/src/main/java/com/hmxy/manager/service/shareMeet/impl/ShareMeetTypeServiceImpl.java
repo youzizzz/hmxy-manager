@@ -5,15 +5,14 @@ import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
+import com.hmxy.http.Response;
 import com.hmxy.manager.dao.shareMeet.ShareMeetTypeDao;
 import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
 import com.hmxy.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @discripeion:
@@ -40,5 +39,32 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
         list = shareMeetTypeDao.shareMeetTypeList(paramMap);
         Page<ClassIficationDTO> page = (Page)list;
         return PageUtils.convertPage(page);
+    }
+
+    public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO) {
+        Response<String> response = new Response<String>();
+        Date date = new Date();
+        String uuid = UUID.randomUUID().toString().substring(0,8);
+        classIficationDTO.setCfId(uuid);
+        classIficationDTO.setCreatorBy("1");
+        classIficationDTO.setCreatorDate(date);
+        classIficationDTO.setUpdateBy("1");
+        classIficationDTO.setUpdateDate(date);
+
+        int count = 0;
+        count = shareMeetTypeDao.shareMeetModalAdd(classIficationDTO);
+        if(count>0){
+//            response.s
+        }
+        return null;
+    }
+
+    public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO) {
+        Date date = new Date();
+        classIficationDTO.setUpdateBy("1");
+        classIficationDTO.setUpdateDate(date);
+        int count = 0;
+        count = shareMeetTypeDao.shareMeetModalUpdate(classIficationDTO);
+        return null;
     }
 }

@@ -21,5 +21,36 @@
 
   </select>
 
+  <insert id="shareMeetModalAdd" parameterType="com.hmxy.dto.ClassIficationDTO">
+    insert into sys_classification
+    (cf_id,creator_by,creator_date,update_by,update_date,category_name,status)
+    values
+    (#{cfId},#{creatorBy},#{creatorDate},#{updateBy},#{updateDate},#{categoryName},#{status})
+  </insert>
+
+  <update id="shareMeetModalUpdate" parameterType="com.hmxy.dto.ClassIficationDTO">
+    update sys_classification t
+    <set>
+      <if test="creatorBy != null" >
+        t.creator_by = #{creatorBy},
+      </if>
+      <if test="creatorDate != null" >
+        t.update_by = #{creatorDate},
+      </if>
+      <if test="updateBy != null" >
+        t.creator_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        t.update_date = #{updateDate},
+      </if>
+      <if test="categoryName != null" >
+        t.category_name = #{categoryName},
+      </if>
+      <if test="status != null" >
+        t.status = #{status},
+      </if>
+    </set>
+    where t.cf_id = #{cfId}
+  </update>
 
 </mapper>

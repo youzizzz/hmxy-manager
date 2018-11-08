@@ -3,6 +3,7 @@ package com.hmxy.manager.controller.shareMeet;
 import com.alibaba.fastjson.JSONObject;
 import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,12 @@ public class ShareMeetTypeController extends BaseController {
         pageInfoResult = shareMeetTypeService.shareMeetTypePage(pageInfoResult,classIficationDTO);
         pageInfoResult.setCode("0");
         return pageInfoResult;
+    }
+
+    @RequestMapping(value = "/shareMeetModalAdd",method = RequestMethod.POST)
+    @ResponseBody
+    public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO){
+        return shareMeetTypeService.shareMeetModalAdd(classIficationDTO);
     }
 
 }
