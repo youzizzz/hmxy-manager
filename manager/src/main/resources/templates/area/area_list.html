@@ -40,6 +40,7 @@
 </script>
 <div id="layModalDialog" style="display: none;">
     <form class="layui-form" action="" id="areaForm">
+        <input type="hidden" name="areId" id="areId" />
         <div class="layui-form-item">
             <label class="layui-form-label">省份编码:</label>
             <div class="layui-input-block">
@@ -126,15 +127,26 @@
             };
             //监听提交
             form.on('submit(areaForm)', function(data){
-                var data=JSON.stringify(data.field);
-                $.get('/hmxy-manager/area/checkAreaExists',{data},function(result){
+                var areId=data.field.areId;
+                $.get('/hmxy-manager/area/checkAreaExists',data.field,function(result){
                    if(result.data=="success"){
-                       $.post('/hmxy-manager/area/addArea',{data},function (res) {
-                           if(res.data=="success"){
-                               table.reload('areaTable',table.options);
-                               layer.close();
-                           }
-                       },'JSON');
+                       if(""==areId){
+                           $.post('/hmxy-manager/area/addArea',data.field,function (res) {
+                               if(res.data=="success"){
+                                   layer.close(layer.index);
+                                   layer.msg(res.message);
+                                   table.reload('areaTable',table.options);
+                               }
+                           },'JSON');
+                       }else{
+                           $.post('/hmxy-manager/area/updateArea',data.field,function (res) {
+                               if(res.data=="success"){
+                                   layer.close(layer.index);
+                                   layer.msg(res.message);
+                                   table.reload('areaTable',table.options);
+                               }
+                           },'JSON');
+                       }
                        return false;
                    }
                     layer.alert(result.message, {

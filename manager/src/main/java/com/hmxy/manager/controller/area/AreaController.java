@@ -9,10 +9,7 @@ import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.area.AreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -45,7 +42,7 @@ public class AreaController extends BaseController {
      */
     @RequestMapping(path = "/addArea",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> saveArea(@RequestBody  AreaDTO areaDTO){
+    public Response<String> saveArea(AreaDTO areaDTO){
         UserInfoDTO currentUser=findCurrentUser();
         areaDTO.setUpdateBy(currentUser.getUserId());
         areaDTO.setUpdateDate(new Date());
@@ -63,7 +60,7 @@ public class AreaController extends BaseController {
      */
     @RequestMapping(path = "/updateArea",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> updateArea(@RequestBody AreaDTO areaDTO){
+    public Response<String> updateArea(AreaDTO areaDTO){
         UserInfoDTO currentUser=findCurrentUser();
         areaDTO.setUpdateBy(currentUser.getUserId());
         areaDTO.setUpdateDate(new Date());

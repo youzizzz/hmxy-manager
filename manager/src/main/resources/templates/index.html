@@ -31,14 +31,14 @@
                 <a href="javascript:;">
                     <img src="http://imgsrc.baidu.com/imgad/pic/item/ca1349540923dd54afaa0d4bdb09b3de9c82483c.jpg"
                          class="layui-nav-img">
-                    测试
+                    <span th:text="${currentUser.username}"></span>
                 </a>
                 <dl class="layui-nav-child">
                     <dd><a href="">基本资料</a></dd>
                     <dd><a href="">安全设置</a></dd>
                 </dl>
             </li>
-            <li class="layui-nav-item"><a href="">退出登录</a></li>
+            <li class="layui-nav-item"><a href="client/logout">退出登录</a></li>
         </ul>
     </div>
 

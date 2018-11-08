@@ -2,6 +2,7 @@ package com.hmxy.manager.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @author tangyouzhi
@@ -15,8 +16,10 @@ public class IndexController extends BaseController {
      * @return
      */
     @GetMapping("/index")
-    public String index() {
-        return "index";
+    public ModelAndView index(ModelAndView modelAndView) {
+        modelAndView.setViewName("index");
+        modelAndView.addObject("currentUser",findCurrentUser());
+        return modelAndView;
     }
 
     /**
