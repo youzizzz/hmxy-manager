@@ -28,11 +28,7 @@
     from sys_share_meeting
     where sm_id = #{smId}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from sys_share_meeting
-    where sm_id = #{smId}
-  </delete>
-  <insert id="insert" parameterType="model.SysShareMeeting" >
+  <insert id="insert" parameterType="com.hmxy.dto.ShareMeetingDTO" >
     insert into sys_share_meeting (sm_id, creator_by, creator_date, 
       update_by, update_date, category_id, 
       detail_id, area_id, title, 
@@ -46,104 +42,8 @@
       #{status}, #{shareEndTime}, #{charge}
       )
   </insert>
-  <insert id="insertSelective" parameterType="model.SysShareMeeting" >
-    insert into sys_share_meeting
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="smId != null" >
-        sm_id,
-      </if>
-      <if test="creatorBy != null" >
-        creator_by,
-      </if>
-      <if test="creatorDate != null" >
-        creator_date,
-      </if>
-      <if test="updateBy != null" >
-        update_by,
-      </if>
-      <if test="updateDate != null" >
-        update_date,
-      </if>
-      <if test="categoryId != null" >
-        category_id,
-      </if>
-      <if test="detailId != null" >
-        detail_id,
-      </if>
-      <if test="areaId != null" >
-        area_id,
-      </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="logoUrl != null" >
-        logo_url,
-      </if>
-      <if test="shareStartTime != null" >
-        share_start_time,
-      </if>
-      <if test="shareId != null" >
-        share_id,
-      </if>
-      <if test="status != null" >
-        status,
-      </if>
-      <if test="shareEndTime != null" >
-        share_end_time,
-      </if>
-      <if test="charge != null" >
-        charge,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="smId != null" >
-        #{smId},
-      </if>
-      <if test="creatorBy != null" >
-        #{creatorBy},
-      </if>
-      <if test="creatorDate != null" >
-        #{creatorDate},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy},
-      </if>
-      <if test="updateDate != null" >
-        #{updateDate},
-      </if>
-      <if test="categoryId != null" >
-        #{categoryId},
-      </if>
-      <if test="detailId != null" >
-        #{detailId},
-      </if>
-      <if test="areaId != null" >
-        #{areaId},
-      </if>
-      <if test="title != null" >
-        #{title},
-      </if>
-      <if test="logoUrl != null" >
-        #{logoUrl},
-      </if>
-      <if test="shareStartTime != null" >
-        #{shareStartTime},
-      </if>
-      <if test="shareId != null" >
-        #{shareId},
-      </if>
-      <if test="status != null" >
-        #{status},
-      </if>
-      <if test="shareEndTime != null" >
-        #{shareEndTime},
-      </if>
-      <if test="charge != null" >
-        #{charge},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="model.SysShareMeeting" >
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.hmxy.dto.ShareMeetingDTO" >
     update sys_share_meeting
     <set >
       <if test="creatorBy != null" >
@@ -191,22 +91,5 @@
     </set>
     where sm_id = #{smId}
   </update>
-  <update id="updateByPrimaryKey" parameterType="model.SysShareMeeting" >
-    update sys_share_meeting
-    set creator_by = #{creatorBy},
-      creator_date = #{creatorDate},
-      update_by = #{updateBy},
-      update_date = #{updateDate},
-      category_id = #{categoryId},
-      detail_id = #{detailId},
-      area_id = #{areaId},
-      title = #{title},
-      logo_url = #{logoUrl},
-      share_start_time = #{shareStartTime},
-      share_id = #{shareId},
-      status = #{status},
-      share_end_time = #{shareEndTime},
-      charge = #{charge}
-    where sm_id = #{smId}
-  </update>
+
 </mapper>

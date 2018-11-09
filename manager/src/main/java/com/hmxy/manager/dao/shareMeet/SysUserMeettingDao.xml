@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmxy.manager.dao.shareMeet.SysUserMeettingDao" >
+  <resultMap id="BaseResultMap" type="com.hmxy.dto.UserMeettingDTO" >
+    <id column="mu_id" property="muId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="metting_id" property="mettingId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="creator_by" property="creatorBy" jdbcType="VARCHAR" />
+    <result column="creator_date" property="creatorDate" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mu_id, user_id, metting_id, status, last_update_time, creator_by, creator_date, update_by, 
+    update_date
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user_meetting
+    where mu_id = #{muId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_user_meetting
+    where mu_id = #{muId}
+  </delete>
+  <insert id="insert" parameterType="com.hmxy.dto.UserMeettingDTO" >
+    insert into sys_user_meetting (mu_id, user_id, metting_id, 
+      status, last_update_time, creator_by, 
+      creator_date, update_by, update_date
+      )
+    values (#{muId}, #{userId}, #{mettingId}, 
+      #{status}, #{lastUpdateTime}, #{creatorBy}, 
+      #{creatorDate}, #{updateBy}, #{updateDate}
+      )
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hmxy.dto.UserMeettingDTO" >
+    update sys_user_meetting
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId},
+      </if>
+      <if test="mettingId != null" >
+        metting_id = #{mettingId},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime},
+      </if>
+      <if test="creatorBy != null" >
+        creator_by = #{creatorBy},
+      </if>
+      <if test="creatorDate != null" >
+        creator_date = #{creatorDate},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+    </set>
+    where mu_id = #{muId}
+  </update>
+</mapper>

@@ -1,5 +1,6 @@
 package com.hmxy.manager.controller.shareMeet;
 
+import com.hmxy.manager.controller.BaseController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,6 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 @RequestMapping("/shareMeet")
-public class ShareMeetController {
+public class ShareMeetController extends BaseController {
 
 }
