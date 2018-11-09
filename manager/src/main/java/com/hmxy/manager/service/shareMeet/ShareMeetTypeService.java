@@ -27,7 +27,7 @@ public interface ShareMeetTypeService {
      * @param classIficationDTO
      * @return
      */
-    Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO);
+    Response<String> shareMeetTypeAdd(ClassIficationDTO classIficationDTO);
 
     /**
      * 分享会类型更新
@@ -35,7 +35,7 @@ public interface ShareMeetTypeService {
      * @param classIficationDTO
      * @return
      */
-    Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO);
+    Response<String> shareMeetTypeUpdate(ClassIficationDTO classIficationDTO);
 
     /**
      * 通过id获取分享会类型
@@ -43,5 +43,5 @@ public interface ShareMeetTypeService {
      * @param cfId
      * @return
      */
-    ClassIficationDTO getShareMeetById(String cfId);
+    ClassIficationDTO getShareMeetTypeById(String cfId);
 }

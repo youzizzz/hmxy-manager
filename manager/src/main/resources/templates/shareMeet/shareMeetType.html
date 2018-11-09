@@ -46,7 +46,7 @@
         <table class="layui-hide" id="admin" lay-filter="admin"></table>
     </div>
     <!-- 新增修改页面 -->
-    <div class="layui-row" id="shareMeetModal" style="display:none;">
+    <div class="layui-row" id="shareMeetTypeModal" style="display:none;">
         <div class="layui-col-md11">
             <form class="layui-form" lay-filter="formTestFilter2121" id="shareMeetModal_form" >
                 <input type="text" name="cfId" hidden="hidden">
@@ -84,7 +84,7 @@
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="shareMeetAdd">新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="shareMeetTypeAdd">新增</button>
     </div>
 </script>
 
@@ -103,7 +103,7 @@
         var tableIns = table.render({
             elem: '#admin'
             ,toolbar: '#toolbarDemo'
-            ,url:'/hmxy-manager/shareMeet/listPage'
+            ,url:'/hmxy-manager/shareMeetType/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
                 {field:'cfId',  title: 'ID', sort: true}
@@ -123,7 +123,7 @@
         table.on('toolbar(admin)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'shareMeetAdd':
+                case 'shareMeetTypeAdd':
                     //示范一个公告层
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -131,7 +131,7 @@
                         title:"新增分享会类型",
                         skin: 'layui-layer-rim',
                         area: ['500px','300px'],
-                        content:$("#shareMeetModal").html(),
+                        content:$("#shareMeetTypeModal").html(),
                         success: function(data){
 
                             var select = $(data).find("select[name=status]")
@@ -162,11 +162,11 @@
                     title:"修改分享会类型",
                     skin: 'layui-layer-rim',
                     area: ['500px','300px'],
-                    content:$("#shareMeetModal").html(),
+                    content:$("#shareMeetTypeModal").html(),
                     success: function(data){
 
                         //赋值
-                        $.post('/hmxy-manager/shareMeet/getShareMeetById', {cfId: params.cfId}, function (result) {
+                        $.post('/hmxy-manager/shareMeetType/getShareMeetTypeById', {cfId: params.cfId}, function (result) {
                             //表单赋值
                             var $form = $(data).find("form");
                             formLoadDataByJson($form,result);
@@ -196,7 +196,7 @@
         });
         //监听提交
         form.on('submit(demo1)', function(data){
-            shareMeetModalAddOrUpdate(data);
+            shareMeetModalTypeAddOrUpdate(data);
             return false;
         });
 
@@ -207,11 +207,11 @@
         /**
          * 分享会类型新增
          */
-        function shareMeetModalAddOrUpdate(data) {
+        function shareMeetModalTypeAddOrUpdate(data) {
             var cfId = data.field.cfId;
             if(null!=cfId&&undefined!=cfId&&"undefined"!=cfId&&""!=cfId){
                 $.ajax({
-                    url: '/hmxy-manager/shareMeet/shareMeetModalUpdate',
+                    url: '/hmxy-manager/shareMeetType/shareMeetTypeUpdate',
                     type: 'POST',
                     data: data.field,
                     dataType: 'JSON',
@@ -231,7 +231,7 @@
                 });
             }else{
                 $.ajax({
-                    url: '/hmxy-manager/shareMeet/shareMeetModalAdd',
+                    url: '/hmxy-manager/shareMeetType/shareMeetTypeAdd',
                     type: 'POST',
                     data: data.field,
                     dataType: 'JSON',
@@ -239,6 +239,7 @@
                         if (res.code = '10000') {
                             layer.close(layer.index);
                             layer.msg(res.message);
+                            reloadTable();
                         }
                         else{
                             layer.alert(res.message, {icon: 0});

@@ -25,14 +25,14 @@
 
   </select>
 
-  <insert id="shareMeetModalAdd" parameterType="com.hmxy.dto.ClassIficationDTO">
+  <insert id="shareMeetTypeAdd" parameterType="com.hmxy.dto.ClassIficationDTO">
     insert into sys_classification
     (cf_id,creator_by,creator_date,update_by,update_date,category_name,status)
     values
     (#{cfId},#{creatorBy},#{creatorDate},#{updateBy},#{updateDate},#{categoryName},#{status})
   </insert>
 
-  <update id="shareMeetModalUpdate" parameterType="com.hmxy.dto.ClassIficationDTO">
+  <update id="shareMeetTypeUpdate" parameterType="com.hmxy.dto.ClassIficationDTO">
     update sys_classification t
     <set>
       <if test="creatorBy != null" >
@@ -58,7 +58,7 @@
   </update>
 
 
-  <select id="getShareMeetById"  parameterType="String" resultMap="BaseResultMap">
+  <select id="getShareMeetTypeById"  parameterType="String" resultMap="BaseResultMap">
     select t.* from sys_classification t
     where t.cf_id = #{cfId}
   </select>

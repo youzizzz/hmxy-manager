@@ -46,9 +46,9 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
     }
 
     @Override
-    public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO) {
+    public Response<String> shareMeetTypeAdd(ClassIficationDTO classIficationDTO) {
         int count = 0;
-        count = shareMeetTypeDao.shareMeetModalAdd(classIficationDTO);
+        count = shareMeetTypeDao.shareMeetTypeAdd(classIficationDTO);
         if(count<1){
             return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型插入失败");
         }
@@ -56,13 +56,13 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
     }
 
     @Override
-    public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO) {
+    public Response<String> shareMeetTypeUpdate(ClassIficationDTO classIficationDTO) {
 
         if(StringUtils.isBlank(classIficationDTO.getCfId())){
             return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型更新,id不能为空");
         }
         int count = 0;
-        count = shareMeetTypeDao.shareMeetModalUpdate(classIficationDTO);
+        count = shareMeetTypeDao.shareMeetTypeUpdate(classIficationDTO);
         if(count<1){
             return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会类型更新失败");
         }
@@ -70,9 +70,9 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
     }
 
     @Override
-    public ClassIficationDTO getShareMeetById(String cfId) {
+    public ClassIficationDTO getShareMeetTypeById(String cfId) {
         List<ClassIficationDTO> list = new ArrayList<ClassIficationDTO>();
-        list = shareMeetTypeDao.getShareMeetById(cfId);
+        list = shareMeetTypeDao.getShareMeetTypeById(cfId);
         if(null!=list&&list.size()>0){
             return list.get(0);
         }

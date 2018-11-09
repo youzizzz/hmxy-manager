@@ -26,19 +26,19 @@ public interface ShareMeetTypeDao {
      * @param classIficationDTO
      * @return
      */
-    int shareMeetModalAdd(ClassIficationDTO classIficationDTO);
+    int shareMeetTypeAdd(ClassIficationDTO classIficationDTO);
 
     /**
      * 分享会类型更新
      * @param classIficationDTO
      * @return
      */
-    int shareMeetModalUpdate(ClassIficationDTO classIficationDTO);
+    int shareMeetTypeUpdate(ClassIficationDTO classIficationDTO);
 
     /**
      * 通过id获取分享会类型
      * @param cfId
      * @return
      */
-    List<ClassIficationDTO> getShareMeetById(String cfId);
+    List<ClassIficationDTO> getShareMeetTypeById(String cfId);
 }

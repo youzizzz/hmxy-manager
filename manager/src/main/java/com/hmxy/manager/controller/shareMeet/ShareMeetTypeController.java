@@ -22,7 +22,7 @@ import java.util.Date;
  * @date: 2018/11/5 16:51
  */
 @Controller
-@RequestMapping("/shareMeet")
+@RequestMapping("/shareMeetType")
 public class ShareMeetTypeController extends BaseController {
 
     @Autowired
@@ -62,9 +62,9 @@ public class ShareMeetTypeController extends BaseController {
      * @param classIficationDTO
      * @return
      */
-    @RequestMapping(value = "/shareMeetModalAdd",method = RequestMethod.POST)
+    @RequestMapping(value = "/shareMeetTypeAdd",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO){
+    public Response<String> shareMeetTypeAdd(ClassIficationDTO classIficationDTO){
         //当前登录用户
         UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
         String userId = user.getUserId();
@@ -75,7 +75,7 @@ public class ShareMeetTypeController extends BaseController {
         classIficationDTO.setCreatorDate(date);
         classIficationDTO.setUpdateBy(userId);
         classIficationDTO.setUpdateDate(date);
-        return shareMeetTypeService.shareMeetModalAdd(classIficationDTO);
+        return shareMeetTypeService.shareMeetTypeAdd(classIficationDTO);
     }
 
     /**
@@ -84,16 +84,16 @@ public class ShareMeetTypeController extends BaseController {
      * @param classIficationDTO
      * @return
      */
-    @RequestMapping(value = "/shareMeetModalUpdate",method = RequestMethod.POST)
+    @RequestMapping(value = "/shareMeetTypeUpdate",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO){
+    public Response<String> shareMeetTypeUpdate(ClassIficationDTO classIficationDTO){
         //当前登录用户
         UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
         String userId = user.getUserId();
         Date date = new Date();
         classIficationDTO.setUpdateBy(userId);
         classIficationDTO.setUpdateDate(date);
-        return shareMeetTypeService.shareMeetModalUpdate(classIficationDTO);
+        return shareMeetTypeService.shareMeetTypeUpdate(classIficationDTO);
     }
 
     /**
@@ -102,10 +102,10 @@ public class ShareMeetTypeController extends BaseController {
      * @param cfId
      * @return
      */
-    @RequestMapping(value = "/getShareMeetById",method = RequestMethod.POST)
+    @RequestMapping(value = "/getShareMeetTypeById",method = RequestMethod.POST)
     @ResponseBody
-    public ClassIficationDTO getShareMeetById(String cfId){
-        return shareMeetTypeService.getShareMeetById(cfId);
+    public ClassIficationDTO getShareMeetTypeById(String cfId){
+        return shareMeetTypeService.getShareMeetTypeById(cfId);
     }
 
 }
