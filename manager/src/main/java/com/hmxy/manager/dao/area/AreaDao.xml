@@ -20,9 +20,24 @@
     </sql>
 
     <!-- 查询全部 -->
-    <select id="areaList" resultMap="BaseResultMap">
+    <select id="areaList" parameterType="java.util.Map" resultMap="BaseResultMap">
       <include refid="areaPublicSql"></include>
         where 1 = 1
+        <if test="null!= provinceCode and ''!= provinceCode">
+            AND a.province_code=#{provinceCode}
+        </if>
+        <if test="null!= provinceName and ''!= provinceName">
+            AND a.province_name=#{provinceName}
+        </if>
+        <if test="null!= cityCode and ''!= cityCode">
+            AND a.city_code=#{cityCode}
+        </if>
+        <if test="null!= cityName and ''!= cityName">
+            AND a.city_name=#{cityName}
+        </if>
+        <if test="''!= status">
+            AND a.status=#{status}
+        </if>
     </select>
 
     <!-- 校验城市是否存在 -->

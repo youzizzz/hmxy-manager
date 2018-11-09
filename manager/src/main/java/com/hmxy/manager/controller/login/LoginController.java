@@ -48,6 +48,7 @@ public class LoginController extends BaseController {
         if(null==resList||resList.size()==0){
             return new Response<String>().setData("error").setStatusCode(HttpStatusEnum.loginError.getCode()).setMessage("登录失败,账号密码不匹配");
         }
+        System.out.println();
         getSession().setAttribute(getStorageName(),resList.get(0));
         return new Response<String>().setData("ok").setStatusCode(HttpStatusEnum.loginSuccess.getCode()).setMessage("登陆成功");
     }

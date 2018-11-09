@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hmxy.manager.dao.userLog.UserLogDao">
+    <resultMap id="BaseResultMap" type="com.hmxy.dto.UserLogDTO">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="user_id" jdbcType="VARCHAR" property="userId"/>
+        <result column="path" jdbcType="VARCHAR" property="path"/>
+        <result column="execute_time" jdbcType="BIGINT" property="executeTime"/>
+        <result column="start_time" jdbcType="TIMESTAMP" property="startTime"/>
+        <result column="end_time" jdbcType="TIMESTAMP" property="endTime"/>
+        <result column="execute_result" jdbcType="TIMESTAMP" property="executeResult"/>
+    </resultMap>
+
+    <!-- 用户日志分页查询 -->
+    <select id="userLogList" parameterType="java.util.Map" resultMap="BaseResultMap">
+      select * from sys_user_log where 1=1
+
+    </select>
+
+    <!-- 新增日志 -->
+    <insert id="addLog" parameterType="com.hmxy.dto.UserLogDTO">
+        insert into sys_user_log(id,user_id,path,execute_time,start_time,end_time,execute_result) values(#{id},#{userId},#{path},#{executeTime},#{startTime},#{endTime},#{executeResult})
+    </insert>
+
+</mapper>

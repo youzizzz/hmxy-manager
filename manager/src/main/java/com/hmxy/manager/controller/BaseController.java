@@ -41,7 +41,7 @@ public class BaseController implements Serializable {
     }
 
     @ModelAttribute
-    private void init(HttpServletRequest request, HttpServletResponse response) {
+    public void init(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
         this.session = request.getSession();

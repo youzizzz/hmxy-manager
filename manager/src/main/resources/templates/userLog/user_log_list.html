@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>layout 后台大布局 - Layui</title>
+    <link rel="stylesheet" href="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
+</head>
+<body class="layui-layout-body">
+
+
+<div class="layadmin-tabsbody-item layui-show">
+    <div class="layui-card layadmin-header">
+        <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
+            <a lay-href="">主页</a><span lay-separator="">/</span>
+            <a><cite>系统模块</cite></a><span lay-separator="">/</span>
+            <a><cite>操作日志</cite></a>
+        </div>
+    </div>
+    <div class="layui-fluid">
+        <div class="layui-row layui-col-space15">
+            <table class="layui-hide" id="logTable" lay-filter="logTable"></table>
+
+        </div>
+    </div>
+
+
+</div>
+
+<script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script>
+    layui.use('table', function(){
+        var table = layui.table;
+
+        function formatResult(d){
+            if(d.executeResult=="10000"){
+                return "成功";
+            }
+            return "失败";
+        }
+        table.render({
+            elem: '#logTable'
+            ,url:'http://localhost:9099/hmxy-manager/userLog/listPage'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,height:830
+            ,cols: [ [
+                {field:'id',  title: 'id', sort: true}
+                ,{field:'userId', title: '用户ID'}
+                ,{field:'path', title: '路径'}
+                ,{field:'startTime', title: '开始时间'}
+                ,{field:'endTime', title: '结束时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'executeTime',title: '执行时长(/ms)'}
+                ,{field:'executeResult', title: '执行结果', minWidth: 100,templet:formatResult} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+            ] ]
+            ,page: true
+        });
+        //头工具栏事件
+        table.on('toolbar(test)', function(obj){
+            var checkStatus = table.checkStatus(obj.config.id);
+            switch(obj.event){
+                case 'getCheckData':
+                    var data = checkStatus.data;
+                    layer.alert(JSON.stringify(data));
+                    break;
+                case 'getCheckLength':
+                    var data = checkStatus.data;
+                    layer.msg('选中了：'+ data.length + ' 个');
+                    break;
+                case 'isAll':
+                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    break;
+            };
+        });
+    });
+
+
+</script>
+</body>
+</html>
