@@ -132,15 +132,12 @@
                         skin: 'layui-layer-rim',
                         area: ['500px','300px'],
                         content:$("#shareMeetModal").html(),
-                        success: function(){
+                        success: function(data){
 
-                            var oldElement = $("#shareMeetModal_form");
-                            $(oldElement).attr("id","shareMeetModal_form_1");
-                            var select = $("#shareMeetModal_form").find("select[name=status]")
+                            var select = $(data).find("select[name=status]")
                             select.val(0);
                             select.attr("disabled",true);
                             form.render();
-                            $(oldElement).attr("id","shareMeetModal_form");
                         }
                     });
 
@@ -157,8 +154,7 @@
 
         //监听行工具事件
         table.on('tool(admin)', function(obj){
-            var data = obj.data;
-            //console.log(obj)
+            var params = obj.data;
             if(obj.event === 'edit'){
                 layer.open({
                     //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -167,16 +163,14 @@
                     skin: 'layui-layer-rim',
                     area: ['500px','300px'],
                     content:$("#shareMeetModal").html(),
-                    success: function(){
+                    success: function(data){
 
                         //赋值
-                        $.post('/hmxy-manager/shareMeet/getShareMeetById', {cfId: data.cfId}, function (result) {
+                        $.post('/hmxy-manager/shareMeet/getShareMeetById', {cfId: params.cfId}, function (result) {
                             //表单赋值
-                            var oldElement = $("#shareMeetModal_form");
-                            $(oldElement).attr("id","shareMeetModal_form_1");
-                            formLoadDataByJson("shareMeetModal_form",result);
+                            var $form = $(data).find("form");
+                            formLoadDataByJson($form,result);
                             form.render();
-                            $(oldElement).attr("id","shareMeetModal_form");
 
                         }, 'json');
 

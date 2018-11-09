@@ -656,9 +656,9 @@
  * @param data
  * @returns
  */
-function formLoadDataByJson(formId, data) {
+function formLoadDataByJson($form, data) {
     var arr=["checkbox","radio","select-one"];
-    var form = document.getElementById(formId);
+    var form = $form;
     $(form).find("input,textarea,select").each(function () {
 
         if (data.hasOwnProperty($(this).attr("name"))) {
