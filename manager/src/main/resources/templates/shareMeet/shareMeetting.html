@@ -14,7 +14,7 @@
         <div class="layui-breadcrumb" lay-filter="breadcrumb" style="visibility: visible;">
             <a lay-href="">主页</a><span lay-separator="">/</span>
             <a><cite>分享会模块</cite></a><span lay-separator="">/</span>
-            <a><cite>分享会类型</cite></a>
+            <a><cite>分享会管理</cite></a>
         </div>
     </div>
     <div class="layui-fluid">
@@ -43,36 +43,21 @@
             </div>
             <button class="layui-btn layui-btn-sm" id="searchBtn">查询</button>
         </div>
-        <table class="layui-hide" id="admin" lay-filter="admin"></table>
+        <table class="layui-hide" id="shareMeetTable" lay-filter="shareMeetTable"></table>
     </div>
     <!-- 新增修改页面 -->
-    <div class="layui-row" id="shareMeetTypeModal" style="display:none;">
-        <div class="layui-col-md11">
-            <form class="layui-form" lay-filter="formTestFilter2121" id="shareMeetModal_form" >
-                <input type="text" name="cfId" hidden="hidden">
-                <div class="layui-form-item">
-                    <label class="layui-form-label">分类名</label>
-                    <div class="layui-input-block">
-                        <input type="text" name="categoryName" lay-verify="required" autocomplete="off" placeholder="请输入分类名"
-                               class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">状态</label>
-                    <div class="layui-input-block">
-                        <select name="status"  lay-verify="required" lay-filter="aihao">
-                            <option value=""></option>
-                            <option value="0">有效</option>
-                            <option value="1">无效</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit="" lay-filter="demo1">立即提交</button>
-                    </div>
-                </div>
-            </form>
+    <div class="layui-row" id="shareMeetModal" style="display:none;">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this">基本信息</li>
+                <li>详情</li>
+                <li>用户关联信息</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">内容1</div>
+                <div class="layui-tab-item">内容2</div>
+                <div class="layui-tab-item">内容3</div>
+            </div>
         </div>
     </div>
 
@@ -95,20 +80,26 @@
 
 
 <script>
-    layui.use(['table','form', 'layedit', 'laydate'], function(){
+    layui.use(['table','form', 'layedit', 'laydate','element'], function(){
         var table = layui.table;
         var form = layui.form;
         var layedit = layui.layedit;
         var laydate = layui.laydate;
+        var element = layui.element;
         var tableIns = table.render({
-            elem: '#admin'
+            elem: '#shareMeetTable'
             ,toolbar: '#toolbarDemo'
-            ,url:'/hmxy-manager/shareMeetType/listPage'
+            ,url:'/hmxy-manager/shareMeet/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
-                {field:'cfId',  title: 'ID', sort: true}
+                {field:'smId',  title: 'ID', sort: true}
                 ,{field:'categoryName',  title: '分类名'}
+                ,{field:'title',  title: '标题'}
+                ,{field:'shareId',  title: '分享者ID'}
                 ,{field:'status',  title: '状态',templet: formatStatus}
+                ,{field:'shareStartTime', title: '开始分享时间'}
+                ,{field:'shareEndTime', title: '结束分享时间'}
+                ,{field:'charge', title: '费用'}
                 ,{field:'creatorBy',  title: '创建人'}
                 ,{field:'creatorDate', title: '创建时间'}
                 ,{field:'updateBy',title: '更新人'}
@@ -120,7 +111,7 @@
 
 
         //头工具栏事件
-        table.on('toolbar(admin)', function(obj){
+        table.on('toolbar(shareMeetTable)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
                 case 'shareMeetTypeAdd':
@@ -130,13 +121,13 @@
                         type:1,
                         title:"新增分享会类型",
                         skin: 'layui-layer-rim',
-                        area: ['500px','300px'],
-                        content:$("#shareMeetTypeModal").html(),
+                        area: ['1000px','600px'],
+                        content:$("#shareMeetModal").html(),
                         success: function(data){
 
-                            var select = $(data).find("select[name=status]")
-                            select.val(0);
-                            select.attr("disabled",true);
+                            // var select = $(data).find("select[name=status]")
+                            // select.val(0);
+                            // select.attr("disabled",true);
                             form.render();
                         }
                     });
@@ -153,7 +144,7 @@
         });
 
         //监听行工具事件
-        table.on('tool(admin)', function(obj){
+        table.on('tool(shareMeetTable)', function(obj){
             var params = obj.data;
             if(obj.event === 'edit'){
                 layer.open({
@@ -162,7 +153,7 @@
                     title:"修改分享会类型",
                     skin: 'layui-layer-rim',
                     area: ['500px','300px'],
-                    content:$("#shareMeetTypeModal").html(),
+                    content:$("#shareMeetModal").html(),
                     success: function(data){
 
                         //赋值

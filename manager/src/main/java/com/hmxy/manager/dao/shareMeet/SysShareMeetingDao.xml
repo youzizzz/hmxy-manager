@@ -22,11 +22,17 @@
     sm_id, creator_by, creator_date, update_by, update_date, category_id, detail_id, 
     area_id, title, logo_url, share_start_time, share_id, status, share_end_time, charge
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from sys_share_meeting
-    where sm_id = #{smId}
+  <select id="shareMeetList" resultMap="BaseResultMap" parameterType="Map" >
+    select  t.*
+    from sys_share_meeting t
+    where 1=1
+    <if test="title != null and title != ''">
+      and t.title  LIKE concat('%',#{title},'%')
+    </if>
+    <if test="status != null and status != ''">
+      and t.status = #{status}
+    </if>
+    ORDER BY t.creator_date desc
   </select>
   <insert id="insert" parameterType="com.hmxy.dto.ShareMeetingDTO" >
     insert into sys_share_meeting (sm_id, creator_by, creator_date, 
