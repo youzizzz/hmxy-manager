@@ -1,6 +1,10 @@
 package com.hmxy.manager.dao.shareMeet;
 
+import com.hmxy.dto.ShareMeetingDTO;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * @discripeion:
@@ -9,4 +13,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysShareMeetingDao {
+    /**
+     * 分享会分页
+     * @param map
+     * @return
+     */
+    List<ShareMeetingDTO> shareMeetList(Map<String, Object> map);
 }

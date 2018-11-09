@@ -33,7 +33,7 @@ public class ShareMeetTypeController extends BaseController {
      */
     @RequestMapping(value = "/toShareMeetTypePage",method = RequestMethod.GET)
     public String toShareMeetTypePage(){
-        return "/shareMeet/shareMeetType";
+        return "shareMeet/shareMeetType";
     }
 
 
