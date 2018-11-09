@@ -12,12 +12,16 @@
     <result column="status" jdbcType="CHAR" property="status" />
   </resultMap>
 
-  <select id="shareMeetTypeList"  resultMap="BaseResultMap">
+  <select id="shareMeetTypeList" parameterType="Map" resultMap="BaseResultMap">
     select t.* from sys_classification t
     where 1 = 1
-    <!--<if test="">-->
-      <!--and t.-->
-    <!--</if>-->
+    <if test="categoryName != null and categoryName != ''">
+      and t.category_name  LIKE concat('%',#{categoryName},'%')
+    </if>
+    <if test="status != null and status != ''">
+      and t.status = #{status}
+    </if>
+    ORDER BY t.creator_date desc
 
   </select>
 

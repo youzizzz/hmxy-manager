@@ -2,15 +2,19 @@ package com.hmxy.manager.controller.shareMeet;
 
 import com.alibaba.fastjson.JSONObject;
 import com.hmxy.dto.ClassIficationDTO;
+import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.shareMeet.ShareMeetTypeService;
+import com.hmxy.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * @discripeion: 分享会管理ontroller
@@ -61,6 +65,16 @@ public class ShareMeetTypeController extends BaseController {
     @RequestMapping(value = "/shareMeetModalAdd",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO){
+        //当前登录用户
+        UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
+        String userName = user.getUsername();
+        Date date = new Date();
+        String uuid = UUIDUtil.generateUUID();
+        classIficationDTO.setCfId(uuid);
+        classIficationDTO.setCreatorBy(userName);
+        classIficationDTO.setCreatorDate(date);
+        classIficationDTO.setUpdateBy(userName);
+        classIficationDTO.setUpdateDate(date);
         return shareMeetTypeService.shareMeetModalAdd(classIficationDTO);
     }
 
@@ -73,6 +87,12 @@ public class ShareMeetTypeController extends BaseController {
     @RequestMapping(value = "/shareMeetModalUpdate",method = RequestMethod.POST)
     @ResponseBody
     public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO){
+        //当前登录用户
+        UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
+        String userName = user.getUsername();
+        Date date = new Date();
+        classIficationDTO.setUpdateBy(userName);
+        classIficationDTO.setUpdateDate(date);
         return shareMeetTypeService.shareMeetModalUpdate(classIficationDTO);
     }
 

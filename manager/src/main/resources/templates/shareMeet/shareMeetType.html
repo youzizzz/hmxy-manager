@@ -106,14 +106,14 @@
             ,url:'/hmxy-manager/shareMeet/listPage'
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
-                {field:'cfId', width:80, title: 'ID', sort: true}
-                ,{field:'categoryName', width:80, title: '分类名'}
-                ,{field:'status', width:80, title: '状态'}
-                ,{field:'creatorBy', width:80, title: '创建人'}
-                ,{field:'creatorDate', title: '创建时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{field:'updateBy',width:80, title: '更新人'}
-                ,{field:'updateDate', title: '更新时间', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
+                {field:'cfId',  title: 'ID', sort: true}
+                ,{field:'categoryName',  title: '分类名'}
+                ,{field:'status',  title: '状态',templet: formatStatus}
+                ,{field:'creatorBy',  title: '创建人'}
+                ,{field:'creatorDate', title: '创建时间'}
+                ,{field:'updateBy',title: '更新人'}
+                ,{field:'updateDate', title: '更新时间'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
             ] ]
             ,page: true
         });
@@ -133,7 +133,14 @@
                         area: ['500px','300px'],
                         content:$("#shareMeetModal").html(),
                         success: function(){
+
+                            var oldElement = $("#shareMeetModal_form");
+                            $(oldElement).attr("id","shareMeetModal_form_1");
+                            var select = $("#shareMeetModal_form").find("select[name=status]")
+                            select.val(0);
+                            select.attr("disabled",true);
                             form.render();
+                            $(oldElement).attr("id","shareMeetModal_form");
                         }
                     });
 
@@ -200,7 +207,6 @@
         });
 
         $('#searchBtn').on('click', function () {
-            console.log(111111)
             reloadTable();
         });
 
@@ -256,20 +262,27 @@
 
         function reloadTable() {
             tableIns.reload({
-                where: {queryParams}
-                ,page: {
-                    curr: 1 //重新从第 1 页开始
-                }
+                where: queryParams()
             });
         }
 
         function queryParams() {
-
             var queryParams = $("#queryShareMeetType").serializeObject();
-            console.log(queryParams)
             return queryParams;
         }
 
+        /**
+         * 格式化状态
+         */
+        function formatStatus(row) {
+            var val = row.status;
+            if ("0" == val) {
+                val = "有效"
+            } else if ("1" == val) {
+                val = "失效"
+            }
+            return val;
+        }
 
     });
 
