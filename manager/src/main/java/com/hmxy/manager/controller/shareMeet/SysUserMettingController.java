@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
  * @discripeion:
- * @author: YM10147
+ * @author: liangj
  * @date: 2018/11/9 15:41
  */
 @Controller
