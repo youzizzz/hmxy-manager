@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hmxy.manager.dao.shareMeet.SysShareDetailDao" >
+  <resultMap id="BaseResultMap" type="com.hmxy.dto.ShareDetailDTO" >
+    <id column="des_id" property="desId" jdbcType="VARCHAR" />
+    <result column="creator_by" property="creatorBy" jdbcType="VARCHAR" />
+    <result column="creator_date" property="creatorDate" jdbcType="DATE" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+    <result column="update_date" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="original_link" property="originalLink" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="model.SysShareDetail" extends="BaseResultMap" >
+    <result column="despition" property="despition" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    des_id, creator_by, creator_date, update_by, update_date, original_link, status
+  </sql>
+  <sql id="Blob_Column_List" >
+    despition
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from sys_share_detail
+    where des_id = #{desId}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from sys_share_detail
+    where des_id = #{desId}
+  </delete>
+  <insert id="insert" parameterType="model.SysShareDetail" >
+    insert into sys_share_detail (des_id, creator_by, creator_date, 
+      update_by, update_date, original_link, 
+      status, despition)
+    values (#{desId}, #{creatorBy}, #{creatorDate}, 
+      #{updateBy}, #{updateDate}, #{originalLink}, 
+      #{status}, #{despition})
+  </insert>
+  <insert id="insertSelective" parameterType="model.SysShareDetail" >
+    insert into sys_share_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="desId != null" >
+        des_id,
+      </if>
+      <if test="creatorBy != null" >
+        creator_by,
+      </if>
+      <if test="creatorDate != null" >
+        creator_date,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+      <if test="updateDate != null" >
+        update_date,
+      </if>
+      <if test="originalLink != null" >
+        original_link,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="despition != null" >
+        despition,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="desId != null" >
+        #{desId},
+      </if>
+      <if test="creatorBy != null" >
+        #{creatorBy},
+      </if>
+      <if test="creatorDate != null" >
+        #{creatorDate},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate},
+      </if>
+      <if test="originalLink != null" >
+        #{originalLink},
+      </if>
+      <if test="status != null" >
+        #{status},
+      </if>
+      <if test="despition != null" >
+        #{despition},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="model.SysShareDetail" >
+    update sys_share_detail
+    <set >
+      <if test="creatorBy != null" >
+        creator_by = #{creatorBy},
+      </if>
+      <if test="creatorDate != null" >
+        creator_date = #{creatorDate},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy},
+      </if>
+      <if test="updateDate != null" >
+        update_date = #{updateDate},
+      </if>
+      <if test="originalLink != null" >
+        original_link = #{originalLink},
+      </if>
+      <if test="status != null" >
+        status = #{status},
+      </if>
+      <if test="despition != null" >
+        despition = #{despition},
+      </if>
+    </set>
+    where des_id = #{desId}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="model.SysShareDetail" >
+    update sys_share_detail
+    set creator_by = #{creatorBy},
+      creator_date = #{creatorDate},
+      update_by = #{updateBy},
+      update_date = #{updateDate},
+      original_link = #{originalLink},
+      status = #{status},
+      despition = #{despition}
+    where des_id = #{desId}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="model.SysShareDetail" >
+    update sys_share_detail
+    set creator_by = #{creatorBy},
+      creator_date = #{creatorDate},
+      update_by = #{updateBy},
+      update_date = #{updateDate},
+      original_link = #{originalLink},
+      status = #{status}
+    where des_id = #{desId}
+  </update>
+</mapper>

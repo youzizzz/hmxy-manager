@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * @discripeion:
- * @author: YM10147
+ * @author: liangj
  * @date: 2018/11/6 10:23
  */
 public interface ShareMeetTypeService {
