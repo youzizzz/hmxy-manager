@@ -51,4 +51,14 @@ public class LoginController extends BaseController {
         getSession().setAttribute(getStorageName(),resList.get(0));
         return new Response<String>().setData("ok").setStatusCode(HttpStatusEnum.loginSuccess.getCode()).setMessage("登陆成功");
     }
+
+    /**
+     * 登出
+     * @return
+     */
+    @RequestMapping(path = "/logout",method = RequestMethod.GET)
+    public String logout(){
+        getSession().invalidate();
+        return "index";
+    }
 }
