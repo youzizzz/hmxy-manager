@@ -67,13 +67,13 @@ public class ShareMeetTypeController extends BaseController {
     public Response<String> shareMeetModalAdd(ClassIficationDTO classIficationDTO){
         //当前登录用户
         UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
-        String userName = user.getUsername();
+        String userId = user.getUserId();
         Date date = new Date();
         String uuid = UUIDUtil.generateUUID();
         classIficationDTO.setCfId(uuid);
-        classIficationDTO.setCreatorBy(userName);
+        classIficationDTO.setCreatorBy(userId);
         classIficationDTO.setCreatorDate(date);
-        classIficationDTO.setUpdateBy(userName);
+        classIficationDTO.setUpdateBy(userId);
         classIficationDTO.setUpdateDate(date);
         return shareMeetTypeService.shareMeetModalAdd(classIficationDTO);
     }
@@ -89,9 +89,9 @@ public class ShareMeetTypeController extends BaseController {
     public Response<String> shareMeetModalUpdate(ClassIficationDTO classIficationDTO){
         //当前登录用户
         UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
-        String userName = user.getUsername();
+        String userId = user.getUserId();
         Date date = new Date();
-        classIficationDTO.setUpdateBy(userName);
+        classIficationDTO.setUpdateBy(userId);
         classIficationDTO.setUpdateDate(date);
         return shareMeetTypeService.shareMeetModalUpdate(classIficationDTO);
     }
