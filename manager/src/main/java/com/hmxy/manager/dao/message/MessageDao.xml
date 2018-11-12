@@ -15,14 +15,62 @@
     <result column="status" jdbcType="CHAR" property="status" />
   </resultMap>
 
-  <select id="messageList"  resultMap="BaseResultMap">
-    select m.* from sys_message m
-    where 1 = 1
-    <!--<if test="">-->
-      <!--and t.-->
-    <!--</if>-->
+  <!-- message模块复用SQL -->
+  <sql id="messagePublicSql">
+     select m.* from sys_message m
+  </sql>
 
+  <!-- 按条件查询所有Message -->
+  <select id="messageList"  resultMap="BaseResultMap">
+   <include refid="messagePublicSql"></include>
+    where 1 = 1
   </select>
 
+  <!-- 根据获得所有消息 -->
+  <select id="findMessageById" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <include refid="messagePublicSql"></include> where m.message_id=#{messageId}
+  </select>
+
+  <!-- 新增保存一个消息 -->
+  <insert id="saveMessage" parameterType="com.hmxy.dto.MessageDTO">
+   insert into sys_message(message_id,message_title,message_content,message_type,message_read,status,creator_by,creator_date,update_by,update_date) values
+   (#{messageId},#{messageTitle},#{messageContent},#{messageType},#{messageRead},#{status},#{creatorBy},#{creatorDate},#{updateBy},#{updateDate})
+  </insert>
+
+  <!-- 更新一条消息 -->
+  <update id="updateMessage" parameterType="com.hmxy.dto.MessageDTO">
+    update sys_message set update_by=#{updateBy},update_date=#{updateDate}
+
+    <if test="null != messageTitle and '' != messageTitle">
+      ,message_title=#{messageTitle}
+    </if>
+    <if test="'' != messageContent">
+      ,message_content=#{messageContent}
+    </if>
+    <if test="'' != messageType">
+      ,message_type=#{messageType}
+    </if>
+    <if test="'' != messageRead">
+      ,message_read=#{messageRead}
+    </if>
+    <if test="'' != status">
+      ,status=#{status}
+    </if>
+    where message_id=#{messageId}
+
+  </update>
+
+  <!-- 更新一条消息 -->
+  <update id="batchUpdateMessage" parameterType="java.util.Map">
+    update sys_message set update_by=#{updateBy},update_date=#{updateDate}
+    <if test="'' != status">
+      ,status=#{status}
+    </if>
+    where message_id in
+    <foreach collection="messageIds" item="messageId" index="index" open="(" separator="," close=")"  >
+        #{messageId}
+    </foreach>
+
+  </update>
 
 </mapper>

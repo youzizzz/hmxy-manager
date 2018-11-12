@@ -2,6 +2,7 @@ package com.hmxy.manager.controller.message;
 
 import com.hmxy.dto.MessageDTO;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.message.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.sql.DriverManager;
+import java.util.Date;
 
 
 /**
  * 消息管理
+ * @author  tangyouzhi
  */
 @Controller
 @RequestMapping("/message")
@@ -52,6 +54,42 @@ public class MessageController extends BaseController {
         pageInfoResult = messageService.MessageListPage(pageInfoResult,messageDTO);
         pageInfoResult.setCode("0");
         return pageInfoResult;
+    }
+
+
+    /**
+     * 根据messageId获取一条message
+     * @param messageId
+     * @return
+     */
+    @RequestMapping(path = "/findMessageById",method = RequestMethod.GET)
+    @ResponseBody
+    public Response<MessageDTO> findOneMessage(String messageId){
+        return messageService.findMessageById(messageId);
+    }
+
+    /**
+     * 更新一条message
+     * @param messageDTO
+     * @return
+     */
+    @RequestMapping(path = "/updateMessage",method = RequestMethod.POST)
+    @ResponseBody
+    public Response<String> updateMessage(MessageDTO messageDTO){
+        messageDTO.setUpdateDate(new Date());
+        messageDTO.setUpdateBy(findCurrentUser().getUserId());
+        return messageService.updateMessage(messageDTO);
+    }
+
+    /**
+     * 批量通过
+     * @param messageIds
+     * @return
+     */
+    @RequestMapping(path = "/batchRead",method =RequestMethod.POST)
+    @ResponseBody
+    public Response<String> batchRead(String messageIds){
+        return null;
     }
 
 }

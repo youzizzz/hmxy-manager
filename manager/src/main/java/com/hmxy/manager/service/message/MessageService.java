@@ -3,6 +3,7 @@ package com.hmxy.manager.service.message;
 import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.dto.MessageDTO;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 
 /**
  * @discripeion:
@@ -19,4 +20,25 @@ public interface MessageService {
      * @return
      */
     PageInfo<MessageDTO> MessageListPage(PageInfo<MessageDTO> pageInfoResult, MessageDTO messageDTO);
+
+    /**
+     * 根据ID获取一条Message
+     * @param messageId
+     * @return
+     */
+    Response<MessageDTO> findMessageById(String messageId);
+
+    /**
+     * 新增保存一条Message
+     * @param messageDTO
+     * @return
+     */
+    Response<String> saveMessage(MessageDTO messageDTO);
+
+    /**
+     * 更新一条Message
+     * @param messageDTO
+     * @return
+     */
+    Response<String> updateMessage(MessageDTO messageDTO);
 }

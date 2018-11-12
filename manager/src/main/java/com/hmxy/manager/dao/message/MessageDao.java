@@ -23,4 +23,31 @@ public interface MessageDao {
      */
     List<MessageDTO> messageList(Map<String, Object> map);
 
+    /**
+     * 根据ID获取一条Message
+     * @param messageId
+     * @return
+     */
+    MessageDTO findMessageById(String messageId);
+
+    /**
+     * 新增保存一条Message
+     * @param messageDTO
+     * @return
+     */
+    Integer saveMessage(MessageDTO messageDTO);
+
+    /**
+     * 更新一条Message
+     * @param messageDTO
+     * @return
+     */
+    Integer updateMessage(MessageDTO messageDTO);
+
+    /**
+     *
+     * @param map
+     * @return
+     */
+    Integer batchUpdateMessage(Map<String,Object> map);
 }
