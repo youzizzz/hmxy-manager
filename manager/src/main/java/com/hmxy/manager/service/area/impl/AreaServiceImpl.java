@@ -4,6 +4,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.AreaDTO;
 import com.hmxy.dto.MessageDTO;
+import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
@@ -18,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -109,5 +111,14 @@ public class AreaServiceImpl implements AreaService {
         return new Response<AreaDTO>().setData(areaDao.findOneArea(areId))
                 .setStatusCode(HttpStatusEnum.success.getCode())
                 .setMessage("查询成功");
+    }
+
+    @Override
+    public List<AreaDTO> getAreaList() {
+        List<AreaDTO> list = new ArrayList<AreaDTO>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("status", ObjectEnum.effective.getStatus());
+        list = areaDao.areaList(paramMap);
+        return list;
     }
 }

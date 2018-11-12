@@ -3,6 +3,7 @@ package com.hmxy.manager.service.shareMeet.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.ClassIficationDTO;
+import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
@@ -77,5 +78,14 @@ public class ShareMeetTypeServiceImpl implements ShareMeetTypeService {
             return list.get(0);
         }
         return null;
+    }
+
+    @Override
+    public List<ClassIficationDTO> getShareMeetTypeList() {
+        List<ClassIficationDTO> list = new ArrayList<ClassIficationDTO>();
+        Map<String, Object> paramMap = new HashMap<String, Object>();
+        paramMap.put("status", ObjectEnum.effective.getStatus());
+        list = shareMeetTypeDao.shareMeetTypeList(paramMap);
+        return list;
     }
 }

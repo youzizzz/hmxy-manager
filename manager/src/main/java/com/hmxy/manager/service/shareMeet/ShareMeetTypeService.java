@@ -5,6 +5,8 @@ import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @discripeion:
  * @author: liangj
@@ -44,4 +46,11 @@ public interface ShareMeetTypeService {
      * @return
      */
     ClassIficationDTO getShareMeetTypeById(String cfId);
+
+    /**
+     * 获取所有分享会类型
+     * @author liangj
+     * @return
+     */
+    List<ClassIficationDTO> getShareMeetTypeList();
 }

@@ -34,7 +34,7 @@
     </if>
     ORDER BY t.creator_date desc
   </select>
-  <insert id="insert" parameterType="com.hmxy.dto.ShareMeetingDTO" >
+  <insert id="shareMeetAdd" parameterType="com.hmxy.dto.ShareMeetingDTO" >
     insert into sys_share_meeting (sm_id, creator_by, creator_date, 
       update_by, update_date, category_id, 
       detail_id, area_id, title, 
@@ -49,7 +49,7 @@
       )
   </insert>
 
-  <update id="updateByPrimaryKeySelective" parameterType="com.hmxy.dto.ShareMeetingDTO" >
+  <update id="shareMeetUpdate" parameterType="com.hmxy.dto.ShareMeetingDTO" >
     update sys_share_meeting
     <set >
       <if test="creatorBy != null" >

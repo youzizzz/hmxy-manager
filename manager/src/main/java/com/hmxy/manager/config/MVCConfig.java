@@ -1,9 +1,11 @@
 package com.hmxy.manager.config;
 
 
+import com.hmxy.manager.converter.DateConverter;
 import com.hmxy.manager.interceptor.LoginInteceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
+import org.springframework.format.FormatterRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -32,7 +34,13 @@ public class MVCConfig implements WebMvcConfigurer {
      *
      * @param registry
      */
+    @Override
     public void addInterceptors(InterceptorRegistry registry) {
             registry.addInterceptor(loginInteceptor).addPathPatterns("/**").excludePathPatterns("/static/**");
+    }
+
+    @Override
+    public void addFormatters(FormatterRegistry registry) {
+        registry.addConverter(new DateConverter());
     }
 }

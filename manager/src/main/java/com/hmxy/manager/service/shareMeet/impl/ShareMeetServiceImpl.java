@@ -2,14 +2,19 @@ package com.hmxy.manager.service.shareMeet.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import com.hmxy.dto.ShareDetailDTO;
 import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
+import com.hmxy.http.Response;
+import com.hmxy.manager.dao.shareMeet.SysShareDetailDao;
 import com.hmxy.manager.dao.shareMeet.SysShareMeetingDao;
 import com.hmxy.manager.service.shareMeet.ShareMeetService;
 import com.hmxy.util.BeanUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +31,9 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
     @Autowired
     private SysShareMeetingDao shareMeetDao;
 
+    @Autowired
+    private SysShareDetailDao sysShareDetailDao;
+
     @Override
     public PageInfo<ShareMeetingDTO> shareMeetPage(PageInfo<ShareMeetingDTO> pageInfoResult, ShareMeetingDTO shareMeetingDTO) {
         PageHelper.startPage(pageInfoResult.getPageNum(), pageInfoResult.getPageSize());
@@ -40,5 +48,23 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
         list = shareMeetDao.shareMeetList(paramMap);
         Page<ShareMeetingDTO> page = (Page)list;
         return PageUtils.convertPage(page);
+    }
+
+    @Override
+    @Transactional
+    public Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
+        int count = 0;
+        count = shareMeetDao.shareMeetAdd(shareMeetingDTO);
+        if(count<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会插入失败");
+        }
+
+        int count1 = 0;
+        count1 = sysShareDetailDao.shareDetailAdd(shareDetailDTO);
+        if(count1<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会详情插入失败");
+        }
+
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage("分享会新增成功");
     }
 }

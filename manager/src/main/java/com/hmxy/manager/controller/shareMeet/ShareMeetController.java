@@ -1,14 +1,21 @@
 package com.hmxy.manager.controller.shareMeet;
 
+import com.hmxy.dto.ShareDetailDTO;
 import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.dto.UserInfoDTO;
+import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.shareMeet.ShareMeetService;
+import com.hmxy.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.Date;
 
 /**
  * @discripeion:
@@ -48,6 +55,42 @@ public class ShareMeetController extends BaseController {
         pageInfoResult = shareMeetService.shareMeetPage(pageInfoResult,shareMeetingDTO);
         pageInfoResult.setCode("0");
         return pageInfoResult;
+    }
+
+    /**
+     * 分享会新增
+     * @author liangj
+     * @param shareMeetingDTO
+     * @param shareDetailDTO
+     * @return
+     */
+    @RequestMapping(value = "/shareMeetAdd",method = RequestMethod.POST)
+    @ResponseBody
+    public Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
+        //当前登录用户
+        UserInfoDTO user = findCurrentUser();
+        String userId = user.getUserId();
+        Date date = new Date();
+
+        String uuid = UUIDUtil.generateUUID();
+        String uuid2 = UUIDUtil.generateUUID();
+
+        shareMeetingDTO.setSmId(uuid);
+        shareMeetingDTO.setDetailId(uuid2);
+        shareMeetingDTO.setCreatorBy(userId);
+        shareMeetingDTO.setCreatorDate(date);
+        shareMeetingDTO.setUpdateBy(userId);
+        shareMeetingDTO.setUpdateDate(date);
+        shareMeetingDTO.setStatus("0");
+
+
+        shareDetailDTO.setDesId(uuid2);
+        shareDetailDTO.setCreatorBy(userId);
+        shareDetailDTO.setCreatorDate(date);
+        shareDetailDTO.setUpdateBy(userId);
+        shareDetailDTO.setUpdateDate(date);
+        shareDetailDTO.setStatus("0");
+        return shareMeetService.shareMeetAdd(shareMeetingDTO,shareDetailDTO);
     }
 
 }

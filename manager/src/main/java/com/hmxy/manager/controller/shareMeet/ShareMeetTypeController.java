@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @discripeion: 分享会管理ontroller
@@ -66,7 +67,7 @@ public class ShareMeetTypeController extends BaseController {
     @ResponseBody
     public Response<String> shareMeetTypeAdd(ClassIficationDTO classIficationDTO){
         //当前登录用户
-        UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
+        UserInfoDTO user = findCurrentUser();
         String userId = user.getUserId();
         Date date = new Date();
         String uuid = UUIDUtil.generateUUID();
@@ -88,7 +89,7 @@ public class ShareMeetTypeController extends BaseController {
     @ResponseBody
     public Response<String> shareMeetTypeUpdate(ClassIficationDTO classIficationDTO){
         //当前登录用户
-        UserInfoDTO user = (UserInfoDTO) getSession().getAttribute(getStorageName());
+        UserInfoDTO user = findCurrentUser();
         String userId = user.getUserId();
         Date date = new Date();
         classIficationDTO.setUpdateBy(userId);
@@ -106,6 +107,17 @@ public class ShareMeetTypeController extends BaseController {
     @ResponseBody
     public ClassIficationDTO getShareMeetTypeById(String cfId){
         return shareMeetTypeService.getShareMeetTypeById(cfId);
+    }
+
+    /**
+     * 获取所有分享会类型
+     * @author liangj
+     * @return
+     */
+    @RequestMapping(value = "/getShareMeetTypeList",method = RequestMethod.POST)
+    @ResponseBody
+    public List<ClassIficationDTO> getShareMeetTypeList(){
+        return shareMeetTypeService.getShareMeetTypeList();
     }
 
 }

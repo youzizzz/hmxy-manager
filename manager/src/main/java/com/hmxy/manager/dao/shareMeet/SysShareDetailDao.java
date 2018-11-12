@@ -1,5 +1,6 @@
 package com.hmxy.manager.dao.shareMeet;
 
+import com.hmxy.dto.ShareDetailDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,4 +10,10 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface SysShareDetailDao {
+    /**
+     * 分享会详情新增
+     * @param shareDetailDTO
+     * @return
+     */
+    int shareDetailAdd(ShareDetailDTO shareDetailDTO);
 }

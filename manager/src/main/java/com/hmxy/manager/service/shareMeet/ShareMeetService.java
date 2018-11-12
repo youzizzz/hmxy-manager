@@ -1,7 +1,9 @@
 package com.hmxy.manager.service.shareMeet;
 
+import com.hmxy.dto.ShareDetailDTO;
 import com.hmxy.dto.ShareMeetingDTO;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 
 /**
  * @discripeion:
@@ -17,4 +19,13 @@ public interface ShareMeetService {
      * @return
      */
     PageInfo<ShareMeetingDTO> shareMeetPage(PageInfo<ShareMeetingDTO> pageInfoResult, ShareMeetingDTO shareMeetingDTO);
+
+    /**
+     * 分享会新增
+     * @author liangj
+     * @param shareMeetingDTO
+     * @param shareDetailDTO
+     * @return
+     */
+    Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
 }

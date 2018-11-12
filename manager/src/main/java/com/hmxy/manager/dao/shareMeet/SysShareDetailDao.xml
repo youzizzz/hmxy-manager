@@ -25,7 +25,7 @@
     delete from sys_share_detail
     where des_id = #{desId}
   </delete>
-  <insert id="insert" parameterType="com.hmxy.dto.ShareDetailDTO" >
+  <insert id="shareDetailAdd" parameterType="com.hmxy.dto.ShareDetailDTO" >
     insert into sys_share_detail (des_id, creator_by, creator_date, 
       update_by, update_date, original_link, 
       status, despition)
@@ -33,7 +33,7 @@
       #{updateBy}, #{updateDate}, #{originalLink}, 
       #{status}, #{despition})
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hmxy.dto.ShareDetailDTO" >
+  <update id="shareDetailUpdate" parameterType="com.hmxy.dto.ShareDetailDTO" >
     update sys_share_detail
     <set >
       <if test="creatorBy != null" >

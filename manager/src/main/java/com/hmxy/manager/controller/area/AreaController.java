@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * 地址管理
@@ -105,5 +106,16 @@ public class AreaController extends BaseController {
         pageInfoResult = areaService.AreaPage(pageInfoResult,areaDTO);
         pageInfoResult.setCode("0");
         return pageInfoResult;
+    }
+
+    /**
+     * 获取所有区域
+     * @author liangj
+     * @return
+     */
+    @RequestMapping(value = "/getAreaList",method = RequestMethod.POST)
+    @ResponseBody
+    public List<AreaDTO> getAreaList(){
+        return areaService.getAreaList();
     }
 }

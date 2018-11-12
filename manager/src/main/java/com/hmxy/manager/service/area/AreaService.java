@@ -5,6 +5,8 @@ import com.hmxy.dto.AreaDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 
+import java.util.List;
+
 /**
  * 地址管理
  *
@@ -50,4 +52,11 @@ public interface AreaService {
      * @return
      */
     Response<AreaDTO> findOneArea(String areId);
+
+    /**
+     * 获取所有区域
+     * @author liangj
+     * @return
+     */
+    List<AreaDTO> getAreaList();
 }

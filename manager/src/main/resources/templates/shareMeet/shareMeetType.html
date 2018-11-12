@@ -48,7 +48,7 @@
     <!-- 新增修改页面 -->
     <div class="layui-row" id="shareMeetTypeModal" style="display:none;">
         <div class="layui-col-md11">
-            <form class="layui-form" lay-filter="formTestFilter2121" id="shareMeetModal_form" >
+            <form class="layui-form" lay-filter="formTestFilter2121" >
                 <input type="text" name="cfId" hidden="hidden">
                 <div class="layui-form-item">
                     <label class="layui-form-label">分类名</label>
@@ -205,7 +205,7 @@
         });
 
         /**
-         * 分享会类型新增
+         * 分享会类型新增或者删除
          */
         function shareMeetModalTypeAddOrUpdate(data) {
             var cfId = data.field.cfId;
@@ -255,12 +255,18 @@
         }
 
 
+        /**
+         * 刷新
+         */
         function reloadTable() {
             tableIns.reload({
                 where: queryParams()
             });
         }
 
+        /**
+         * 查询参数
+         */
         function queryParams() {
             var queryParams = $("#queryShareMeetType").serializeObject();
             return queryParams;

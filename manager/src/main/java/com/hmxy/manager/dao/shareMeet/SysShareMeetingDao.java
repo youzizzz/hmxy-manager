@@ -19,4 +19,11 @@ public interface SysShareMeetingDao {
      * @return
      */
     List<ShareMeetingDTO> shareMeetList(Map<String, Object> map);
+
+    /**
+     * 分享会新增
+     * @param shareMeetingDTO
+     * @return
+     */
+    int shareMeetAdd(ShareMeetingDTO shareMeetingDTO);
 }
