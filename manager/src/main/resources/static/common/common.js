@@ -672,3 +672,12 @@ function formLoadDataByJson($form, data) {
         }
     });
 }
+
+//对象空值判断
+function isNotNull(obj){
+    if(obj == "" || obj == null || obj == undefined){
+        return false;
+    }else{
+        return true;
+    }
+}

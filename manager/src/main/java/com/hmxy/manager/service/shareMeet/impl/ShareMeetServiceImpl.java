@@ -67,4 +67,42 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
 
         return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage("分享会新增成功");
     }
+
+    @Override
+    @Transactional
+    public Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
+        int count = 0;
+        count = shareMeetDao.shareMeetUpdate(shareMeetingDTO);
+        if(count<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会更新失败");
+        }
+
+        int count1 = 0;
+        count1 = sysShareDetailDao.shareDetailUpdate(shareDetailDTO);
+        if(count1<1){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会详情更新失败");
+        }
+
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage("分享会更新成功");
+    }
+
+    @Override
+    public ShareMeetingDTO getShareMeetById(String smId) {
+        List<ShareMeetingDTO> list = new ArrayList<ShareMeetingDTO>();
+        list = shareMeetDao.getShareMeetById(smId);
+        if(null!=list&&list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
+
+    @Override
+    public ShareDetailDTO getShareMeetDetailById(String detailId) {
+        List<ShareDetailDTO> list = new ArrayList<ShareDetailDTO>();
+        list = sysShareDetailDao.getShareMeetDetailById(detailId);
+        if(null!=list&&list.size()>0){
+            return list.get(0);
+        }
+        return null;
+    }
 }

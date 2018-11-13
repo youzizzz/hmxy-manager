@@ -26,4 +26,19 @@ public interface SysShareMeetingDao {
      * @return
      */
     int shareMeetAdd(ShareMeetingDTO shareMeetingDTO);
+
+    /**
+     * 通过id获取分享会
+     * @author liangj
+     * @param smId
+     * @return
+     */
+    List<ShareMeetingDTO> getShareMeetById(String smId);
+
+    /**
+     * 分享会更新
+     * @param shareMeetingDTO
+     * @return
+     */
+    int shareMeetUpdate(ShareMeetingDTO shareMeetingDTO);
 }

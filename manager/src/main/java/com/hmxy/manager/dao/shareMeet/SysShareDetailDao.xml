@@ -61,4 +61,9 @@
     where des_id = #{desId}
   </update>
 
+  <select id="getShareMeetDetailById"  parameterType="String" resultMap="BaseResultMap">
+    select t.* from sys_share_detail t
+    where t.des_id = #{_parameter}
+  </select>
+
 </mapper>

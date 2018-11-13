@@ -28,4 +28,29 @@ public interface ShareMeetService {
      * @return
      */
     Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
+
+    /**
+     * 通过id获取分享会
+     * @author liangj
+     * @param smId
+     * @return
+     */
+    ShareMeetingDTO getShareMeetById(String smId);
+
+    /**
+     * 通过id获取分享会详情
+     * @author liangj
+     * @param detailId
+     * @return
+     */
+    ShareDetailDTO getShareMeetDetailById(String detailId);
+
+    /**
+     * 分享会更新
+     * @author liangj
+     * @param shareMeetingDTO
+     * @param shareDetailDTO
+     * @return
+     */
+    Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
 }

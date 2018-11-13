@@ -46,7 +46,7 @@
         <table class="layui-hide" id="shareMeetTable" lay-filter="shareMeetTable"></table>
     </div>
     <!-- 新增修改页面 -->
-    <div class="layui-row" id="shareMeetModal" style="display:none;">
+    <div class="layui-row" id="shareMeetModal" style="display: none">
         <form class="layui-form" lay-filter="formTestFilter" id="shareMeetModal_form">
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
@@ -58,11 +58,12 @@
 
                     <div class="layui-tab-item layui-show">
                         <div class="layui-row">
+                            <input type="text" name="smId" hidden="hidden">
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">标题</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="title" autocomplete="off" placeholder="请输入标题"
-                                           class="layui-input">
+                                           v-model="shareMeet.title" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-col-sm4">
@@ -81,7 +82,7 @@
                                 <div class="layui-input-block">
                                     <select name="areaId">
                                         <option value=""></option>
-                                        <option v-for="(area, index) in areaList" :value="area.areaId">{{ area.cityName
+                                        <option v-for="(area, index) in areaList" :value="area.areId">{{ area.cityName
                                             }}
                                         </option>
                                     </select>
@@ -119,6 +120,7 @@
                     </div>
                     <div class="layui-tab-item">
                         <div class="layui-row">
+                            <input type="text" name="desId" hidden="hidden">
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">原始链接</label>
                                 <div class="layui-input-block">
@@ -168,12 +170,14 @@
 
 
 <script>
-    var ShareMeetModal = new Vue({
+    var ShareMeetModalVue = new Vue({
         el: '#shareMeetModal',
         data: {
             selected: 0,
             shareMeetTypeList: [],
-            areaList: []
+            areaList: [],
+            // orderInfo: $.parseJSON($("#orderJson_hidden").val()) ? $.parseJSON($("#orderJson_hidden").val()) : {},
+            shareMeet:{},
         },
         mounted: function () {
             this.getShareMeetTypeList();
@@ -252,14 +256,7 @@
                         },
                         success: function(data){
                             //日期
-                            var dateObject = $(data).find("input[lay-filter=dateTime]")
-                            dateObject.each(function () {
-                                $(this).attr("id",this.name);
-                                var ssl = laydate.render({
-                                    elem: '#'+this.name
-                                    ,type: 'datetime'
-                                });
-                            });
+                            renderDate(data);
                             form.render();
                         }
                     });
@@ -279,23 +276,66 @@
         table.on('tool(shareMeetTable)', function(obj){
             var params = obj.data;
             if(obj.event === 'edit'){
+
                 layer.open({
                     //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
                     type:1,
                     title:"修改分享会信息",
                     skin: 'layui-layer-rim',
-                    area: ['500px','300px'],
+                    area: ['1000px','600px'],
                     content:$("#shareMeetModal").html(),
+                    btn:['保存'],
+                    yes: function(index, layero){
+                        shareMeetUpdate(index, layero);
+                    },
                     success: function(data){
+                        var $form = $(data).find("form");
+                        // 赋值
+                        var detailId = "";
+                        $.ajax({
+                            url: '/hmxy-manager/shareMeet/getShareMeetById',
+                            type: 'POST',
+                            async: false,
+                            data: {smId: params.smId},
+                            dataType: 'JSON',
+                            success: function (result) {
+                                detailId = result.detailId;
+                                formLoadDataByJson($form,result);
+                            },
+                            error: function (data) {
+                                layer.alert("系统异常,请稍后重试", {icon: 2});
+                            }
+                        });
 
-                        //赋值
-                        $.post('/hmxy-manager/shareMeetType/getShareMeetTypeById', {cfId: params.cfId}, function (result) {
-                            //表单赋值
-                            var $form = $(data).find("form");
-                            formLoadDataByJson($form,result);
-                            form.render();
+                        if(isNotNull(detailId)){
+                            $.ajax({
+                                url: '/hmxy-manager/shareMeet/getShareMeetDetailById',
+                                type: 'POST',
+                                async: false,
+                                data: {detailId: detailId},
+                                dataType: 'JSON',
+                                success: function (result) {
+                                    formLoadDataByJson($form,result);
+                                },
+                                error: function (data) {
+                                    layer.alert("系统异常,请稍后重试", {icon: 2});
+                                }
+                            });
+                        }
 
-                        }, 'json');
+
+
+                        //日期
+                        renderDate(data);
+                        form.render();
+                        // $.post('/hmxy-manager/shareMeet/getShareMeetById', {smId: params.smId}, function (result) {
+                        //     // ShareMeetModalVue.shareMeet = $.parseJSON(result) ? $.parseJSON(result) : {},
+                        //     ShareMeetModalVue.shareMeet = result;
+                        //     // var $form = $(data).find("form");
+                        //     // formLoadDataByJson($form,result);
+                        //     form.render();
+                        //
+                        // }, 'JSON');
 
                     }
                 });
@@ -333,7 +373,6 @@
         function shareMeetAdd(index, layero) {
             var $form = $(layero).find("form");
             var fromData = $form.serializeObject();
-            console.log(fromData)
             $.ajax({
                 url: '/hmxy-manager/shareMeet/shareMeetAdd',
                 type: 'POST',
@@ -350,8 +389,32 @@
                     }
                 },
                 error: function (data) {
-                    console.log(data)
-                    console.log(data.responseText)
+                    layer.alert("系统异常,请稍后重试", {icon: 2});
+                }
+            });
+        }
+        /**
+         * 分享会类型更新
+         */
+        function shareMeetUpdate(index, layero) {
+            var $form = $(layero).find("form");
+            var fromData = $form.serializeObject();
+            $.ajax({
+                url: '/hmxy-manager/shareMeet/shareMeetUpdate',
+                type: 'POST',
+                data: fromData,
+                dataType: 'JSON',
+                success: function (res) {
+                    if (res.code = '10000') {
+                        layer.close(index);
+                        layer.msg(res.message);
+                        reloadTable();
+                    }
+                    else{
+                        layer.alert(res.message, {icon: 0});
+                    }
+                },
+                error: function (data) {
                     layer.alert("系统异常,请稍后重试", {icon: 2});
                 }
             });
@@ -435,6 +498,22 @@
                 val = "失效"
             }
             return val;
+        }
+
+
+        /**
+         * 弹出层日期控件
+         * @param data
+         */
+        function renderDate(data) {
+            var dateObject = $(data).find("input[lay-filter=dateTime]")
+            dateObject.each(function () {
+                $(this).attr("id",this.name);
+                laydate.render({
+                    elem: '#'+this.name
+                    ,type: 'datetime'
+                });
+            });
         }
 
     });

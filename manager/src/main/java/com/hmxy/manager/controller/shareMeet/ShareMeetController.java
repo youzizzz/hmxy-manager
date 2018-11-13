@@ -4,11 +4,13 @@ import com.hmxy.dto.ShareDetailDTO;
 import com.hmxy.dto.ShareMeetingDTO;
 import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.enums.ObjectEnum;
+import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
 import com.hmxy.manager.service.shareMeet.ShareMeetService;
 import com.hmxy.util.UUIDUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -58,6 +60,29 @@ public class ShareMeetController extends BaseController {
     }
 
     /**
+     * 通过id获取分享会
+     * @author liangj
+     * @param smId
+     * @return
+     */
+    @RequestMapping(value = "/getShareMeetById",method = RequestMethod.POST)
+    @ResponseBody
+    public ShareMeetingDTO getShareMeetById(String smId){
+        return shareMeetService.getShareMeetById(smId);
+    }
+    /**
+     * 通过id获取分享会详情
+     * @author liangj
+     * @param detailId
+     * @return
+     */
+    @RequestMapping(value = "/getShareMeetDetailById",method = RequestMethod.POST)
+    @ResponseBody
+    public ShareDetailDTO getShareMeetDetailById(String detailId){
+        return shareMeetService.getShareMeetDetailById(detailId);
+    }
+
+    /**
      * 分享会新增
      * @author liangj
      * @param shareMeetingDTO
@@ -91,6 +116,38 @@ public class ShareMeetController extends BaseController {
         shareDetailDTO.setUpdateDate(date);
         shareDetailDTO.setStatus("0");
         return shareMeetService.shareMeetAdd(shareMeetingDTO,shareDetailDTO);
+    }
+    /**
+     * 分享会更新
+     * @author liangj
+     * @param shareMeetingDTO
+     * @param shareDetailDTO
+     * @return
+     */
+    @RequestMapping(value = "/shareMeetUpdate",method = RequestMethod.POST)
+    @ResponseBody
+    public Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
+
+        if(StringUtils.isBlank(shareMeetingDTO.getSmId())){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会id不能为空");
+        }
+        if(StringUtils.isBlank(shareDetailDTO.getDesId())){
+            return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会详情id不能为空");
+        }
+
+        //当前登录用户
+        UserInfoDTO user = findCurrentUser();
+        String userId = user.getUserId();
+        Date date = new Date();
+
+
+        shareMeetingDTO.setUpdateBy(userId);
+        shareMeetingDTO.setUpdateDate(date);
+
+
+        shareDetailDTO.setUpdateBy(userId);
+        shareDetailDTO.setUpdateDate(date);
+        return shareMeetService.shareMeetUpdate(shareMeetingDTO,shareDetailDTO);
     }
 
 }

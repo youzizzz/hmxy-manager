@@ -98,4 +98,9 @@
     where sm_id = #{smId}
   </update>
 
+  <select id="getShareMeetById"  parameterType="String" resultMap="BaseResultMap">
+    select t.* from sys_share_meeting t
+    where t.sm_id = #{smId}
+  </select>
+
 </mapper>
