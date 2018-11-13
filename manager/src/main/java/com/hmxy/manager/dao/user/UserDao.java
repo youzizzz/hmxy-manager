@@ -1,6 +1,5 @@
 package com.hmxy.manager.dao.user;
 
-import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.dto.UserInfoDTO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -30,4 +29,24 @@ public interface UserDao {
      */
     List<UserInfoDTO> login(UserInfoDTO userInfoDTO);
 
+    /**
+     * 根据ID获取用户信息
+     * @param userId
+     * @return
+     */
+    UserInfoDTO findOneUserById(String userId);
+
+    /**
+     * 新增一个用户
+     * @param userInfoDTO
+     * @return
+     */
+    Integer saveUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * 修改一个用户
+     * @param userInfoDTO
+     * @return
+     */
+    Integer updateUser(UserInfoDTO userInfoDTO);
 }

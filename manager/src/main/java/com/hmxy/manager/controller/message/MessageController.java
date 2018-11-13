@@ -1,6 +1,7 @@
 package com.hmxy.manager.controller.message;
 
 import com.hmxy.dto.MessageDTO;
+import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 /**
@@ -89,7 +92,12 @@ public class MessageController extends BaseController {
     @RequestMapping(path = "/batchRead",method =RequestMethod.POST)
     @ResponseBody
     public Response<String> batchRead(String messageIds){
-        return null;
+        Map<String,Object> params=new ConcurrentHashMap<>();
+        params.put("messageIds",messageIds.split(","));
+        params.put("updateBy",findCurrentUser().getUserId());
+        params.put("updateDate",new Date());
+        params.put("status", ObjectEnum.Invalid.getStatus());
+        return messageService.batchUpdateMessage(params);
     }
 
 }

@@ -2,7 +2,6 @@ package com.hmxy.manager.service.message.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.hmxy.dto.ClassIficationDTO;
 import com.hmxy.dto.MessageDTO;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
@@ -15,7 +14,6 @@ import com.hmxy.util.UUIDUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -85,6 +83,20 @@ public class MessageServiceImpl implements MessageService {
         int result = messageDao.updateMessage(messageDTO);
         return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode())
                 .setMessage(result > 0 ? "消息信息更新成功" : "消息信息更新失败")
+                .setData(result > 0 ? "success" : "error");
+    }
+
+    /**
+     * 批量已读
+     *
+     * @param map
+     * @return
+     */
+    @Override
+    public Response<String> batchUpdateMessage(Map<String, Object> map) {
+        int result = messageDao.batchUpdateMessage(map);
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode())
+                .setMessage(result > 0 ? "批量已读更新成功" : "批量已读更新失败")
                 .setData(result > 0 ? "success" : "error");
     }
 }

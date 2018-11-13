@@ -60,6 +60,6 @@ public class LoginController extends BaseController {
     @RequestMapping(path = "/logout",method = RequestMethod.GET)
     public String logout(){
         getSession().invalidate();
-        return "index";
+        return "client/login";
     }
 }

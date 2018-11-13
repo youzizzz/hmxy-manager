@@ -45,7 +45,7 @@ public interface MessageDao {
     Integer updateMessage(MessageDTO messageDTO);
 
     /**
-     *
+     * 批量已读
      * @param map
      * @return
      */

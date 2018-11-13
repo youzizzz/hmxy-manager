@@ -660,7 +660,7 @@ function formLoadDataByJson($form, data) {
     var arr=["checkbox","radio","select-one"];
     var form = $form;
     $(form).find("input,textarea,select").each(function () {
-
+        console.info($(this).attr("type"));
         if (data.hasOwnProperty($(this).attr("name"))) {
             if($.inArray($(this).attr("type"),arr)>0){
                 if($(this).val()==data[$(this).attr("name")]){

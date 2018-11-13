@@ -2,6 +2,7 @@ package com.hmxy.manager.service.user;
 
 import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.http.PageInfo;
+import com.hmxy.http.Response;
 
 import java.util.List;
 
@@ -25,4 +26,25 @@ public interface UserService {
      * 登录
      */
     List<UserInfoDTO> login(UserInfoDTO userInfoDTO);
+
+    /**
+     * 根据ID获取用户信息
+     * @param userId
+     * @return
+     */
+    Response<UserInfoDTO> findOneUserById(String userId);
+
+    /**
+     * 新增一个用户
+     * @param userInfoDTO
+     * @return
+     */
+    Response<String> saveUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * 修改一个用户
+     * @param userInfoDTO
+     * @return
+     */
+    Response<String> updateUser(UserInfoDTO userInfoDTO);
 }

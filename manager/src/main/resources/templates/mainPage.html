@@ -20,13 +20,13 @@
     box-shadow: 0 1px 2px 0 rgba(0,0,0,.05)">
                 <div class="layui-card-header">待办事项</div>
                 <div class="layui-card-body">
-                    <div class="layui-row layui-col-space15">
+                    <div class="layui-row layui-col-space15" id="dbsx">
                         <div class="layui-col-xs6">
-                            <p><a href=";">待查看信息</a> </p>
+                            <p><a href="javascript:void(0)" src="message/toMessagePage?messageRead=0&&status=0">待查看信息</a> </p>
                             <h3 style="cursor: pointer;color: green;">66</h3>
                         </div>
                         <div class="layui-col-md6">
-                            <p><a href=";">待审核友链申请</a> </p>
+                            <p><a href="javascript:void(0)" src="message/toMessagePage?messageType=2&&status=0">待审核友链申请</a> </p>
                             <h3 style="cursor: pointer;color: green;">50</h3>
                         </div>
                     </div>
@@ -71,7 +71,6 @@
            trigger:"mouseover"
         });
         carousel.on('change(test1)', function(obj){ //test1来源于对应HTML容器的 lay-filter="test1" 属性值
-            console.info(obj.index);
             if(obj.index==1){
                 dayLine();
             }else if(obj.index==2){
@@ -213,6 +212,9 @@
         dayLine();
         Pie();
         weekLine();
+        $("#dbsx a").click(function(){
+            window.parent.document.getElementById("content_iframe").src=$(this).attr("src");
+        });
     })
 
 

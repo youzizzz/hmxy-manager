@@ -5,6 +5,8 @@ import com.hmxy.dto.MessageDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 
+import java.util.Map;
+
 /**
  * @discripeion:
  * @author: tangyouzhi
@@ -41,4 +43,11 @@ public interface MessageService {
      * @return
      */
     Response<String> updateMessage(MessageDTO messageDTO);
+
+    /**
+     * 批量已读
+     * @param map
+     * @return
+     */
+    Response<String> batchUpdateMessage(Map<String,Object> map);
 }

@@ -19,6 +19,58 @@
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
+            <div class="layui-row layui-col-md11">
+                <form class="layui-form" lay-filter="formTestFilter2020" id="queryMessageForm" >
+                    <input type="text" name="areId" hidden="hidden">
+                    <div class="layui-col-sm2 ">
+                        <label class="layui-form-label">消息标题</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="messageTitle" lay-verify="required" autocomplete="off" placeholder="请输入消息标题"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-col-sm2 ">
+                        <label class="layui-form-label">发起用户</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="creatorBy" lay-verify="required" autocomplete="off" placeholder="请输入用户ID"
+                                   class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-col-sm2 ">
+                        <label class="layui-form-label">消息类型</label>
+                        <div class="layui-input-block">
+                            <select name="messageType"  lay-verify="required" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">用户补全</option>
+                                <option value="1">投诉建议</option>
+                                <option value="2">友链申请</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="layui-col-sm2 ">
+                        <label class="layui-form-label">是否已读</label>
+                        <div class="layui-input-block">
+                            <select name="messageRead"  lay-verify="required" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">未读</option>
+                                <option value="1">已读</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class=" layui-col-sm2 ">
+                        <label class="layui-form-label">状态</label>
+                        <div class="layui-input-block">
+                            <select name="status"  lay-verify="required" lay-filter="aihao">
+                                <option value=""></option>
+                                <option value="0">有效</option>
+                                <option value="1">无效</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <button class="layui-btn layui-btn-md" id="searchBtn" style="margin-top: 0.5%;">查询</button>
+        </div>
             <table class="layui-hide" id="messageTable" lay-filter="messageFilter"></table>
 
         </div>
@@ -73,7 +125,7 @@
                 </div>
                 <div class="layui-form-item message_btns">
                     <div class="layui-input-block">
-                        <button class="layui-btn messageSub" lay-submit lay-filter="areaSub" >我已悉知</button>
+                        <button class="layui-btn" lay-submit lay-filter="wyxz"  >我已悉知</button>
                         <button class="layui-btn layui-btn-primary">关闭</button>
                     </div>
                 </div>
@@ -143,6 +195,7 @@
 </script>
 <script>
     layui.use('table', function(){
+        var form=layui.form;
         /**
          * 格式化消息类型
          * @param d
@@ -175,7 +228,7 @@
             return d.status=="0"?"有效":"无效";
         }
         var table = layui.table;
-        table.render({
+        var tableIns=table.render({
             elem: '#messageTable'
             ,toolbar: '#toolbarDemo'
             ,url:'http://localhost:9099/hmxy-manager/message/listPage'
@@ -195,7 +248,8 @@
                 ,{field:'updateDate', title: '更新时间', width:225} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
                 ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
             ] ]
-            ,page: true
+            ,page: true,
+            done:tableLoadSuccess
         });
         //头工具栏事件
         table.on('toolbar(messageFilter)', function(obj){
@@ -216,15 +270,22 @@
                             userShareArr.push(data[i].messageId);
                         }
                     }
-                    $.post("");
-                    //layer.alert("符合条件的有:"+normalArr.join(",")+".不符合条件的有:"+userShareArr.join(",")+".不符合条件的原因是类型是用户补全,需要手动确认!")
+                    if(normalArr.length>0){
+                        $.post("/hmxy-manager/message/batchRead",{"messageIds":normalArr.join(",")},function(result){
+                            layer.alert("更新成功,成功:"+normalArr.length+"个,失败:"+userShareArr.length+"个!");
+                            reloadData();
+                        },'JSON');
+                    }
                     break;
             };
         });
+        /**
+         * 复选框check操作
+         */
         table.on('checkbox(messageFilter)', function(obj){
             if(obj.type=="one"){
                 if(obj.checked){
-                    if(obj.data.messageRead=="0"){
+                    if(obj.data.messageRead=="1"){
                         obj.checked=false;
                         obj.update({
                             checked:false
@@ -243,13 +304,93 @@
             }
         });
 
+        /**
+         *
+         *  操作按钮点击函数处理
+         */
         table.on('tool(messageFilter)', function(obj){
             var data = obj.data;
             if(obj.event === "detail"){
                 showMessageById(data.messageId);
                 return;
+            }else if(obj.event === "del"){
+                layer.confirm('确定要删除ID为:'+data.messageId+"的信息吗", {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    $.post('/hmxy-manager/message/updateMessage',{"messageId":data.messageId,"status":"1"},function(result){
+                        layer.msg(result.message);
+                        reloadData();
+                    },'JSON');
+                }, function(){
+                    layer.close();
+                });
             }
         });
+
+        /**
+         * 获取查询参数
+         * @returns {*|{}|jQuery}
+         */
+        function queryParams(){
+            var data=$("#queryMessageForm").serializeObject();
+            return data;
+        }
+
+        /**
+         * 重新加载表格数据
+         */
+        function reloadData(){
+            var data=queryParams();
+            tableIns.reload({
+                where:data
+            });
+        }
+
+        form.on('submit(wyxz)', function(data){
+            $.post('/hmxy-manager/message/updateMessage',{"messageId":data.field.messageId,"messageRead":"1"},function(result){
+                layer.close(layer.index);
+                layer.msg(result.message);
+                reloadData();
+            },"JSON");
+            return false;
+        });
+
+        /**
+         * 点击查询按钮
+         */
+        $("#searchBtn").click(function () {
+            reloadData();
+        });
+
+        var executeCount=0;
+
+        /**
+         *  初始化页面
+         */
+         function initPage(){
+             var href=window.location.href;
+             if(href.indexOf("?")>0){
+                 var param=href.substr(href.indexOf("?")+1);
+                 var params=param.split("&&");
+                 for(var i=0;i<params.length;i++){
+                     var kv=params[i].split("=");
+                     console.info(kv);
+                     $("#queryMessageForm select[name="+kv[0]+"]").val(kv[1]);
+                 }
+                 reloadData();
+             }
+         }
+
+         /**
+          * 表格异步加载成功触发
+          */
+         function tableLoadSuccess(res, curr, count){
+             if(executeCount==0){
+                initPage();
+                executeCount++;
+             }
+         }
+
     });
 
     /**
@@ -312,7 +453,6 @@
             return;
         },'JSON');
     }
-
 </script>
 </body>
 </html>
