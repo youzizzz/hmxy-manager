@@ -19,7 +19,7 @@
     </div>
     <div class="layui-fluid">
         <div class="layui-row layui-col-space15">
-            <table class="layui-hide" id="test" lay-filter="test"></table>
+            <table class="layui-hide" id="messageTable" lay-filter="messageFilter"></table>
 
         </div>
     </div>
@@ -27,53 +27,291 @@
 
 </div>
 
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 50px;">
+    <legend>卡片风格的Tab</legend>
+</fieldset>
+
+<div id="MesaageModalDialog" style="display: none">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">消息主体</li>
+            <li>补全详情</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <form class="layui-form messageForm">
+                <input type="hidden" name="messageId" id="messageId" />
+                <div class="layui-form-item">
+                    <label class="layui-form-label">消息标题:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="messageTitle"   autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">消息内容:</label>
+                    <div class="layui-input-block">
+                        <textarea name="messageContent" class="layui-textarea"></textarea>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">消息类型:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="messageType"  autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发起者ID:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="creatorBy" autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">发起时间:</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="creatorDate" autocomplete="off"  class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item message_btns">
+                    <div class="layui-input-block">
+                        <button class="layui-btn messageSub" lay-submit lay-filter="areaSub" >我已悉知</button>
+                        <button class="layui-btn layui-btn-primary">关闭</button>
+                    </div>
+                </div>
+            </form></div>
+            <div class="layui-tab-item">
+                <form class="layui-form message_meeting_Form">
+                    <input type="hidden" name="csId" id="csId" />
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享课题:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="shareTitle"   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享类型:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="catalogName"   autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享会地址:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="areaName"  autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">分享时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="shareTime" autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">报名链接:</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="originalLink"  autocomplete="off"  class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <label class="layui-form-label">备注:</label>
+                            <div class="layui-input-block">
+                                <textarea name="description" class="layui-textarea"></textarea>
+                        </div>
+                    </div>
+                    <div class="layui-form-item meeting-btns">
+                        <div class="layui-input-block">
+                            <button class="layui-btn ">通过</button>
+                            <button class="layui-btn layui-btn-primary">驳回</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
+<script th:src="@{/hmxy-manager/common/common.js}" charset="utf-8"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckData">获取选中行数据</button>
-        <button class="layui-btn layui-btn-sm" lay-event="getCheckLength">获取选中数目</button>
-        <button class="layui-btn layui-btn-sm" lay-event="isAll">验证是否全选</button>
+        <button class="layui-btn layui-btn-sm" lay-event="selectAll">批量已读</button>
     </div>
+</script>
+<script type="text/html" id="barDemo">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
 </script>
 <script>
     layui.use('table', function(){
+        /**
+         * 格式化消息类型
+         * @param d
+         * @returns {string}
+         */
+        function formatMessageType(d){
+            if(d.messageType=="0"){
+                return "用户补全";
+            }else if(d.messageType=="1"){
+                return "投诉建议";
+            }else if(d.messageType=="2"){
+                return "友链申请";
+            }
+
+        }
+
+        /**
+         * 格式化消息读取状态
+         * @param d
+         */
+        function formatMessageRead(d){
+             return d.messageRead=="0"?"未读":"已读";
+        }
+
+        /**
+         * 格式化消息状态
+         * @param d
+         */
+        function formatStatus(d){
+            return d.status=="0"?"有效":"无效";
+        }
         var table = layui.table;
         table.render({
-            elem: '#test'
+            elem: '#messageTable'
             ,toolbar: '#toolbarDemo'
             ,url:'http://localhost:9099/hmxy-manager/message/listPage'
+            ,height: 825
             ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
             ,cols: [ [
                 {type: 'checkbox', fixed: 'left'},
-                {field:'cfId', width:80, title: 'ID', sort: true}
-                ,{field:'categoryName', width:80, title: '分类名'}
-                ,{field:'status', width:80, title: '状态'}
-                ,{field:'creatorBy', width:80, title: '创建人'}
-                ,{field:'creatorDate', title: '创建时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
-                ,{field:'updateBy',width:80, title: '更新人'}
-                ,{field:'updateDate', title: '更新时间', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                {field:'messageId', width:100,title: '消息编号', sort: true}
+                ,{field:'messageTitle', title: '消息标题',width:200}
+                ,{field:'messageContent', width:200, title: '消息内容'}
+                ,{field:'messageType', width:150, title: '消息类型',templet:formatMessageType}
+                ,{field:'messageRead', title: '是否已读',width:80,templet:formatMessageRead} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'status',width:80, title: '状态',templet:formatStatus}
+                ,{field:'creatorBy', width:100, title: '创建人'}
+                ,{field:'creatorDate', title: '创建时间', width:225} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{field:'updateBy',width:100, title: '更新人'}
+                ,{field:'updateDate', title: '更新时间', width:225} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo', width:150}
             ] ]
             ,page: true
         });
         //头工具栏事件
-        table.on('toolbar(test)', function(obj){
+        table.on('toolbar(messageFilter)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'getCheckData':
+                case 'selectAll':
                     var data = checkStatus.data;
-                    layer.alert(JSON.stringify(data));
-                    break;
-                case 'getCheckLength':
-                    var data = checkStatus.data;
-                    layer.msg('选中了：'+ data.length + ' 个');
-                    break;
-                case 'isAll':
-                    layer.msg(checkStatus.isAll ? '全选': '未全选');
+                    if(data.length==0){
+                        layer.alert("请至少选择一行数据进行操作!");
+                        return;
+                    }
+                    var normalArr=new Array();
+                    var userShareArr=new Array();
+                    for(var i=0;i<data.length;i++){
+                        if(data[i].messageRead=="0"&&data[i].messageType!="0"){
+                            normalArr.push(data[i].messageId);
+                        }else if(data[i].messageRead=="0"&&data[i].messageType=="0"){
+                            userShareArr.push(data[i].messageId);
+                        }
+                    }
+                    $.post("");
+                    //layer.alert("符合条件的有:"+normalArr.join(",")+".不符合条件的有:"+userShareArr.join(",")+".不符合条件的原因是类型是用户补全,需要手动确认!")
                     break;
             };
         });
+        table.on('checkbox(messageFilter)', function(obj){
+            if(obj.type=="one"){
+                if(obj.checked){
+                    if(obj.data.messageRead=="0"){
+                        obj.checked=false;
+                        obj.update({
+                            checked:false
+                        });
+                        $(obj.tr.selector).find(".layui-form-checked").removeClass("layui-form-checked");
+                    }
+                }
+            }else{
+                if(obj.checked){
+                   $(".layui-table-body table tbody .layui-form-checkbox").each(function(){
+                      if($(this).parents("tr").find("td[data-field=\"messageRead\"]").text()=="已读"){
+                          $(".layui-table-body tr[data-index="+$(this).parents("tr").attr("data-index")+"]").find(".layui-form-checkbox").removeClass("layui-form-checked");
+                      }
+                   });
+                }
+            }
+        });
+
+        table.on('tool(messageFilter)', function(obj){
+            var data = obj.data;
+            if(obj.event === "detail"){
+                showMessageById(data.messageId);
+                return;
+            }
+        });
     });
 
+    /**
+     * 根据ID获取消息内容
+     * @param id
+     */
+    function showMessageById(id){
+        $.get('/hmxy-manager/message/findMessageById',{'messageId':id},function (result) {
+            layer.open({
+                type: 1
+                ,title: "查询消息"
+                ,area: '500px;'
+                ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                ,btnAlign: 'c'
+                ,skin:"layui-layer-rim"
+                ,moveType: 1 //拖拽模式，0或者1
+                ,content:$("#MesaageModalDialog").html()
+                ,success: function(){
+                   $("#LAY_layuipro .layui-tab li").click(function () {
+                        var index=$("#LAY_layuipro .layui-tab li").index($(this));
+                        $("#LAY_layuipro .layui-tab li").eq(index).addClass("layui-this").siblings().removeClass("layui-this");
+                        $("#LAY_layuipro .layui-tab-content .layui-tab-item").eq(index).addClass("layui-show").siblings().removeClass("layui-show");
+                    });
+
+                    var data=result.data;
+                    if(data.messageType!="0"){
+                        $("#LAY_layuipro .layui-tab li").eq(1).hide();
+                        $("#LAY_layuipro .messageForm textarea").parents(".layui-form-item").show();
+                    }else{
+                        $("#LAY_layuipro .layui-tab li").eq(1).show();
+                        $("#LAY_layuipro .messageForm textarea").parents(".layui-form-item").hide();
+                        $.ajax({
+                            url:'/hmxy-manager/completionShare/findOneUserShare',
+                            async:false,
+                            Type: 'GET',
+                            dataType:'JSON',
+                            data:{'csId':data.messageContent},
+                            success:function(result){
+                                formLoadDataByJson($("#LAY_layuipro .message_meeting_Form"),result.data);
+                                $("#LAY_layuipro .message_meeting_Form input,textarea").attr("readonly","readonly");
+                            }
+                        });
+                    }
+                    if(data.messageRead!="0"){
+                        $("#LAY_layuipro .meeting-btns,.message_btns").hide();
+                    }else{
+                        if(data.messageType=="0"){
+                            $("#LAY_layuipro .meeting-btns").show();
+                            $("#LAY_layuipro .message_btns").hide();
+                        }else{
+                            $("#LAY_layuipro .message_btns").show();
+                            $("#LAY_layuipro .meeting-btns").hide();
+                        }
+                    }
+                    data.messageType=data.messageType=="0"?"用户补全":(data.messageType=="1"?"投诉建议":(data.messageType=="2"?"友链申请":null));
+                    formLoadDataByJson($("#LAY_layuipro .messageForm"),data);
+                    $("#LAY_layuipro .messageForm input,textarea").attr("readonly","readonly");
+                }
+            });
+            return;
+        },'JSON');
+    }
 
 </script>
 </body>
