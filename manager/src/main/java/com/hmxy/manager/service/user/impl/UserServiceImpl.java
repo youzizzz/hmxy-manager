@@ -104,4 +104,17 @@ public class UserServiceImpl implements UserService {
                 .setMessage(result > 0 ? "用户信息更新成功" : "用户信息更新失败")
                 .setData(result > 0 ? "success" : "error");
     }
+
+    /**
+     * 校验用户名是否存在
+     *
+     * @param userInfoDTO
+     * @return
+     */
+    @Override
+    public Response<String> checkUserNameExists(UserInfoDTO userInfoDTO) {
+        int result = userDao.checkUserNameExists(userInfoDTO);
+        return new Response<String>().setStatusCode(HttpStatusEnum.success.getCode()).setMessage(result > 0 ? "用户名已存在!" : "该用户名可用!").
+                setData(result > 0 ? "error" : "success");
+    }
 }

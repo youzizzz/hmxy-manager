@@ -1,6 +1,7 @@
 package com.hmxy.manager.controller.login;
 
 import com.hmxy.dto.UserInfoDTO;
+import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.Response;
 import com.hmxy.manager.controller.BaseController;
@@ -44,6 +45,7 @@ public class LoginController extends BaseController {
     @ResponseBody
     public Response<String> login(UserInfoDTO userInfoDTO) {
         userInfoDTO.setPassword(MD5Util.MD5(userInfoDTO.getPassword()));
+        userInfoDTO.setStatus(String.valueOf(ObjectEnum.effective.getStatus()));
         List<UserInfoDTO> resList=userService.login(userInfoDTO);
         if(null==resList||resList.size()==0){
             return new Response<String>().setData("error").setStatusCode(HttpStatusEnum.loginError.getCode()).setMessage("登录失败,账号密码不匹配");

@@ -49,4 +49,11 @@ public interface UserDao {
      * @return
      */
     Integer updateUser(UserInfoDTO userInfoDTO);
+
+    /**
+     * 校验用户名是否存在
+     * @param userInfoDTO
+     * @return
+     */
+    Integer checkUserNameExists(UserInfoDTO userInfoDTO);
 }

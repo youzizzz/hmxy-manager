@@ -42,7 +42,7 @@
 
     <!-- 校验城市是否存在 -->
     <select id="checkCityExists" parameterType="com.hmxy.dto.AreaDTO" resultType="java.lang.Integer">
-    select count(1) from sys_area a where a.city_code=#{cityCode} and a.city_name=#{cityName} and are_id=#{areId}
+    select count(1) from sys_area a where a.city_code=#{cityCode} and a.city_name=#{cityName} and are_id!=#{areId} and a.status=#{status}
   </select>
 
     <!-- 新增一条城市记录 -->

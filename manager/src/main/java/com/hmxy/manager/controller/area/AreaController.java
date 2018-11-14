@@ -76,6 +76,7 @@ public class AreaController extends BaseController {
     @RequestMapping(path = "/checkAreaExists",method = RequestMethod.GET)
     @ResponseBody
     public Response<String> checkAreaExists(AreaDTO areaDTO){
+        areaDTO.setStatus(ObjectEnum.effective.getStatus());
         return areaService.checkCityExists(areaDTO);
     }
 

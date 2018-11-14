@@ -1,5 +1,6 @@
 package com.hmxy.manager.controller.user;
 
+import com.hmxy.dto.AreaDTO;
 import com.hmxy.dto.MessageDTO;
 import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.enums.ObjectEnum;
@@ -81,7 +82,9 @@ public class UserController extends BaseController {
 	public Response<String> updateUser(UserInfoDTO userInfoDTO){
 		userInfoDTO.setUpdateDate(new Date());
 		userInfoDTO.setUpdateBy(findCurrentUser().getUserId());
-		userInfoDTO.setPassword(MD5Util.MD5(userInfoDTO.getPassword()));
+		if(null!=userInfoDTO.getPassword()){
+            userInfoDTO.setPassword(MD5Util.MD5(userInfoDTO.getPassword()));
+        }
 		return userService.updateUser(userInfoDTO);
 	}
 
@@ -101,5 +104,17 @@ public class UserController extends BaseController {
 		userInfoDTO.setPassword(MD5Util.MD5(userInfoDTO.getPassword()));
 		return userService.saveUser(userInfoDTO);
 	}
+
+    /**
+     * 检查用户名是否存在
+     * @param userInfoDTO
+     * @return
+     */
+    @RequestMapping(path = "/checkUserNameExists",method = RequestMethod.GET)
+    @ResponseBody
+    public Response<String> checkAreaExists(UserInfoDTO userInfoDTO){
+        userInfoDTO.setStatus(String.valueOf(ObjectEnum.effective.getStatus()));
+        return userService.checkUserNameExists(userInfoDTO);
+    }
 
 }

@@ -6,6 +6,12 @@
 	<title>layout 后台大布局 - Layui</title>
 </head>
 <body class="layui-layout-body">
+<style>
+	body .layui-layer-red .layui-layer-title{background:white; color:red; border: none;}
+	body .layui-layer-red .layui-layer-btn{border-top:1px solid #E9E7E7}
+	body .layui-layer-red .layui-layer-btn a{background:red;}
+	body .layui-layer-red .layui-layer-btn .layui-layer-btn1{background:#999;}
+</style>
 <link rel="stylesheet" href="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/css/layui.css">
 <div class="layadmin-tabsbody-item layui-show">
 	<div class="layui-card layadmin-header">
@@ -198,11 +204,10 @@
             var data = obj.data;
             if(obj.event === 'del'){
                 layer.confirm('确定要删除<span style="color:red">'+data.username+'</span>吗?', function(index){
-                    $.post('/hmxy-manager/area/updateUser',{'userId':data.userId,'status':'1'},function (res) {
+                    $.post('/hmxy-manager/user/updateUser',{'userId':data.userId,'status':'1'},function (res) {
                         if(res.data=="success"){
                             layer.msg("删除成功");
                             obj.del();
-                            layer.close(layer.index);
                         }
                     },'JSON');;
                 });
@@ -219,23 +224,33 @@
 
         form.on('submit(userSub)', function(data){
             var userId=data.field.userId;
-          	if(""!=userId){
-                $.post('/hmxy-manager/user/updateUser',data.field,function(res){
-                    if(res.data=="success"){
-                        layer.close(layer.index);
-                        layer.msg(res.message);
-                        reloadData();
-                    }
-                },'JSON');
-			}else{
-          	    $.post('/hmxy-manager/user/addUser',data.field,function(res){
-                    if(res.data=="success"){
-                        layer.close(layer.index);
-                        layer.msg(res.message);
-                        reloadData();
-                    }
-				},'JSON');
-			}
+            $.get('/hmxy-manager/user/checkUserNameExists',data.field,function(result){
+					if(result.data==="success"){
+                        if(""!=userId){
+                            $.post('/hmxy-manager/user/updateUser',data.field,function(res){
+                                if(res.data=="success"){
+                                    layer.close(layer.index);
+                                    layer.msg(res.message);
+                                    reloadData();
+                                }
+                            },'JSON');
+                        }else{
+                            $.post('/hmxy-manager/user/addUser',data.field,function(res){
+                                if(res.data=="success"){
+                                    layer.close(layer.index);
+                                    layer.msg(res.message);
+                                    reloadData();
+                                }
+                            },'JSON');
+                        }
+					}else{
+                        layer.alert(result.message, {
+                            skin: 'layui-layer-red' //样式类名
+                            ,closeBtn: 0
+                        });
+					}
+
+			},'JSON');
             return false;
         });
 

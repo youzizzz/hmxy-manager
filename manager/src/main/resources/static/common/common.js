@@ -606,7 +606,7 @@
                     console.info(e);
                 }
                 try {
-                    $.cookie('htmlDownloadFileToken', '', {expires: -1, path: global.contextPath});
+                        $.cookie('htmlDownloadFileToken', '', {expires: -1, path: global.contextPath});
                 } catch (e) {
                     console.info(e);
                 }
@@ -660,9 +660,10 @@ function formLoadDataByJson($form, data) {
     var arr=["checkbox","radio","select-one"];
     var form = $form;
     $(form).find("input,textarea,select").each(function () {
-        console.info($(this).attr("type"));
         if (data.hasOwnProperty($(this).attr("name"))) {
             if($.inArray($(this).attr("type"),arr)>0){
+                console.info($(this).val());
+                console.info(data[$(this).attr("name")]);
                 if($(this).val()==data[$(this).attr("name")]){
                     $(this).prop("checked","checked");
                     return;

@@ -3,6 +3,7 @@ package com.hmxy.manager.config;
 import com.hmxy.dto.UserInfoDTO;
 import com.hmxy.dto.UserLogDTO;
 import com.hmxy.http.HttpStatusEnum;
+import com.hmxy.http.Response;
 import com.hmxy.manager.dao.userLog.UserLogDao;
 import com.hmxy.util.UUIDUtil;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -19,7 +20,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 日志切面
@@ -35,6 +38,11 @@ public class LogAspectJ {
 
 
     private Environment env;
+
+    /**
+     * 需要记录下来的操作接口返回值
+     */
+    private static final List<String> writeLogClass= Arrays.asList("com.hmxy.http.PageInfo","com.hmxy.http.Response");
 
     /**
      * 登录信息在session中的Key
@@ -63,7 +71,6 @@ public class LogAspectJ {
             throw new IllegalArgumentException("该注解只能用于方法");
         }
         msig = (MethodSignature) sig;
-        Object target = pjp.getTarget();
         RequestAttributes ra = RequestContextHolder.getRequestAttributes();
         ServletRequestAttributes sra = (ServletRequestAttributes) ra;
         HttpServletRequest request = sra.getRequest();
@@ -73,7 +80,8 @@ public class LogAspectJ {
         Date startTime = null;
         Date endTime = null;
         try {
-            if (path.equals("/hmxy-manager/client/login") || path.equals("/hmxy-manager/client/userLogin")) {
+            if (path.equals("/hmxy-manager/client/login") || path.equals("/hmxy-manager/client/userLogin")||!
+                    writeLogClass.contains(msig.getReturnType().getName())) {
                 return pjp.proceed();
             }
             userLog = new UserLogDTO();

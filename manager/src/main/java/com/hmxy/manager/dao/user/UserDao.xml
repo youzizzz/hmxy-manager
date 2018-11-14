@@ -56,7 +56,7 @@
   <!-- 登录 -->
   <select id="login" parameterType="com.hmxy.dto.UserInfoDTO" resultMap="BaseResultMap">
     <include refid="selectUserPrefix"></include>
-     where username=#{username} and password=#{password} and status='0'
+     where username=#{username} and password=#{password} and status=#{status}
   </select>
 
   <!-- 根据Id获取用户 -->
@@ -96,7 +96,7 @@
     <if test="null!=certificateCode and ''!= certificateCode">
       ,certificateCode=#{certificateCode}
     </if>
-    <if test="null!=birthDate and ''!= birthDate">
+    <if test="null!=birthDate">
       ,birthDate=#{birthDate}
     </if>
     <if test="null!=sex and ''!= sex">
@@ -108,5 +108,10 @@
 
     where user_id=#{userId}
   </update>
+
+  <!-- 校验用户名是否存在 -->
+  <select id="checkUserNameExists" parameterType="com.hmxy.dto.UserInfoDTO" resultType="java.lang.Integer">
+    select count(1) from sys_user su where su.username=#{username} and su.status=#{status} and su.user_id!=#{userId}
+  </select>
 
 </mapper>
