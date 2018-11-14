@@ -1,7 +1,7 @@
 package com.hmxy.manager.service.shareMeet;
 
 import com.hmxy.dto.ShareDetailDTO;
-import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.dto.ShareMeetDTO;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
 
@@ -18,7 +18,7 @@ public interface ShareMeetService {
      * @param pageInfoResult
      * @return
      */
-    PageInfo<ShareMeetingDTO> shareMeetPage(PageInfo<ShareMeetingDTO> pageInfoResult, ShareMeetingDTO shareMeetingDTO);
+    PageInfo<ShareMeetDTO> shareMeetPage(PageInfo<ShareMeetDTO> pageInfoResult, ShareMeetDTO shareMeetingDTO);
 
     /**
      * 分享会新增
@@ -27,7 +27,7 @@ public interface ShareMeetService {
      * @param shareDetailDTO
      * @return
      */
-    Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
+    Response<String> shareMeetAdd(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
 
     /**
      * 通过id获取分享会
@@ -35,7 +35,7 @@ public interface ShareMeetService {
      * @param smId
      * @return
      */
-    ShareMeetingDTO getShareMeetById(String smId);
+    ShareMeetDTO getShareMeetById(String smId);
 
     /**
      * 通过id获取分享会详情
@@ -52,5 +52,5 @@ public interface ShareMeetService {
      * @param shareDetailDTO
      * @return
      */
-    Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
+    Response<String> shareMeetUpdate(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO);
 }

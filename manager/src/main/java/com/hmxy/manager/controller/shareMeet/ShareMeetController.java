@@ -1,9 +1,8 @@
 package com.hmxy.manager.controller.shareMeet;
 
 import com.hmxy.dto.ShareDetailDTO;
-import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.dto.ShareMeetDTO;
 import com.hmxy.dto.UserInfoDTO;
-import com.hmxy.enums.ObjectEnum;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.Response;
@@ -50,8 +49,8 @@ public class ShareMeetController extends BaseController {
      */
     @RequestMapping(value = "/listPage",method = RequestMethod.GET)
     @ResponseBody
-    public PageInfo<ShareMeetingDTO> shareMeetPage(ShareMeetingDTO shareMeetingDTO, int page, int limit){
-        PageInfo<ShareMeetingDTO> pageInfoResult = new PageInfo<ShareMeetingDTO>();
+    public PageInfo<ShareMeetDTO> shareMeetPage(ShareMeetDTO shareMeetingDTO, int page, int limit){
+        PageInfo<ShareMeetDTO> pageInfoResult = new PageInfo<ShareMeetDTO>();
         pageInfoResult.setPageNum(page);
         pageInfoResult.setPageSize(limit);
         pageInfoResult = shareMeetService.shareMeetPage(pageInfoResult,shareMeetingDTO);
@@ -67,7 +66,7 @@ public class ShareMeetController extends BaseController {
      */
     @RequestMapping(value = "/getShareMeetById",method = RequestMethod.POST)
     @ResponseBody
-    public ShareMeetingDTO getShareMeetById(String smId){
+    public ShareMeetDTO getShareMeetById(String smId){
         return shareMeetService.getShareMeetById(smId);
     }
     /**
@@ -91,7 +90,7 @@ public class ShareMeetController extends BaseController {
      */
     @RequestMapping(value = "/shareMeetAdd",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
+    public Response<String> shareMeetAdd(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
         //当前登录用户
         UserInfoDTO user = findCurrentUser();
         String userId = user.getUserId();
@@ -126,7 +125,7 @@ public class ShareMeetController extends BaseController {
      */
     @RequestMapping(value = "/shareMeetUpdate",method = RequestMethod.POST)
     @ResponseBody
-    public Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
+    public Response<String> shareMeetUpdate(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO){
 
         if(StringUtils.isBlank(shareMeetingDTO.getSmId())){
             return  new Response<String>().setStatusCode(HttpStatusEnum.error.getCode()).setMessage("分享会id不能为空");

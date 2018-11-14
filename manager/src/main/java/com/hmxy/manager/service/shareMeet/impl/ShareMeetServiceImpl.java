@@ -3,7 +3,7 @@ package com.hmxy.manager.service.shareMeet.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.hmxy.dto.ShareDetailDTO;
-import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.dto.ShareMeetDTO;
 import com.hmxy.http.HttpStatusEnum;
 import com.hmxy.http.PageInfo;
 import com.hmxy.http.PageUtils;
@@ -35,7 +35,7 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
     private SysShareDetailDao sysShareDetailDao;
 
     @Override
-    public PageInfo<ShareMeetingDTO> shareMeetPage(PageInfo<ShareMeetingDTO> pageInfoResult, ShareMeetingDTO shareMeetingDTO) {
+    public PageInfo<ShareMeetDTO> shareMeetPage(PageInfo<ShareMeetDTO> pageInfoResult, ShareMeetDTO shareMeetingDTO) {
         PageHelper.startPage(pageInfoResult.getPageNum(), pageInfoResult.getPageSize());
         Map<String, Object> paramMap = null;
 
@@ -44,15 +44,15 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
             paramMap = BeanUtil.beanToMap(shareMeetingDTO);
         } catch (Exception e) {
         }
-        List<ShareMeetingDTO> list = new ArrayList<ShareMeetingDTO>();
+        List<ShareMeetDTO> list = new ArrayList<ShareMeetDTO>();
         list = shareMeetDao.shareMeetList(paramMap);
-        Page<ShareMeetingDTO> page = (Page)list;
+        Page<ShareMeetDTO> page = (Page)list;
         return PageUtils.convertPage(page);
     }
 
     @Override
     @Transactional
-    public Response<String> shareMeetAdd(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
+    public Response<String> shareMeetAdd(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
         int count = 0;
         count = shareMeetDao.shareMeetAdd(shareMeetingDTO);
         if(count<1){
@@ -70,7 +70,7 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
 
     @Override
     @Transactional
-    public Response<String> shareMeetUpdate(ShareMeetingDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
+    public Response<String> shareMeetUpdate(ShareMeetDTO shareMeetingDTO, ShareDetailDTO shareDetailDTO) {
         int count = 0;
         count = shareMeetDao.shareMeetUpdate(shareMeetingDTO);
         if(count<1){
@@ -87,8 +87,8 @@ public class ShareMeetServiceImpl  implements ShareMeetService {
     }
 
     @Override
-    public ShareMeetingDTO getShareMeetById(String smId) {
-        List<ShareMeetingDTO> list = new ArrayList<ShareMeetingDTO>();
+    public ShareMeetDTO getShareMeetById(String smId) {
+        List<ShareMeetDTO> list = new ArrayList<ShareMeetDTO>();
         list = shareMeetDao.getShareMeetById(smId);
         if(null!=list&&list.size()>0){
             return list.get(0);

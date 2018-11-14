@@ -52,7 +52,7 @@
                 <ul class="layui-tab-title">
                     <li class="layui-this">基本信息</li>
                     <li>详情</li>
-                    <li>用户关联信息</li>
+                    <li id="sharerMessage">分享者关联信息</li>
                 </ul>
                 <div class="layui-tab-content">
 
@@ -69,7 +69,7 @@
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">分享会类型</label>
                                 <div class="layui-input-block">
-                                    <select name="categoryId">
+                                    <select name="categoryId" lay-search="">
                                         <option value=""></option>
                                         <option v-for="(shareMeetType, index) in shareMeetTypeList"
                                                 :value="shareMeetType.cfId">{{ shareMeetType.categoryName }}
@@ -139,9 +139,23 @@
                     </div>
                     <div class="layui-tab-item">
                         <div class="layui-row">
-
+                            <div class="layui-col-sm4">
+                                <label class="layui-form-label"><a class="layui-btn layui-btn-sm"  id="sharerAppend">添加分享者</a></label>
+                                <div class="layui-input-block">
+                                    <select name="sharerId" lay-search>
+                                        <option value="">请选择或输入</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="layui-col-sm4">
+                                <label class="layui-form-label"><a class="layui-btn layui-btn-sm"  id="addSharer">新增分享者</a></label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="sharerName" autocomplete="off" placeholder="请输入分享者名称"
+                                           class="layui-input">
+                                </div>
+                            </div>
                         </div>
-                        <!--<table class="layui-hide" id="userMeetTable" lay-filter="userMeetTable"></table>-->
+                        <table class="layui-hide sharerMeettingTable" lay-filter="sharerMeettingTable"></table>
                     </div>
 
 
@@ -149,7 +163,21 @@
             </div>
         </form>
     </div>
+    <!-- 添加分享者页面 -->
+    <!--<div class="layui-row" id="sharerAppendModal" style="display: none">-->
+        <!--<div class="layui-row">-->
+            <!--<form class="layui-form">-->
+                <!--<div class="layui-col-sm8">-->
+                    <!--<label class="layui-form-label">分享者</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<select name="sharerId" lay-search>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
 
+        <!--</div>-->
+    <!--</div>-->
 
 </div>
 
@@ -159,9 +187,14 @@
 <script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
 <script type="text/html" id="toolbarDemo">
     <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="shareMeetTypeAdd">新增</button>
+        <button class="layui-btn layui-btn-sm" lay-event="shareMeetAdd">新增</button>
     </div>
 </script>
+<!--<script type="text/html" id="toolbarSharer">-->
+    <!--<div class="layui-btn-container">-->
+        <!--<a class="layui-btn layui-btn-sm"  lay-event="sharerMeettingAdd">添加分享者</a>-->
+    <!--</div>-->
+<!--</script>-->
 
 <script type="text/html" id="barDemo">
     <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
@@ -180,10 +213,17 @@
             shareMeet:{},
         },
         mounted: function () {
+            this.getShareMeet();
             this.getShareMeetTypeList();
             this.getAreaList();
         },
         methods: {
+            getShareMeet: function () {
+                var vm = this;
+                $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
+                    vm.shareMeet = response;
+                }, 'json');
+            },
             getShareMeetTypeList: function () {
                 var vm = this;
                 $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
@@ -241,7 +281,7 @@
         table.on('toolbar(shareMeetTable)', function(obj){
             var checkStatus = table.checkStatus(obj.config.id);
             switch(obj.event){
-                case 'shareMeetTypeAdd':
+                case 'shareMeetAdd':
                     //示范一个公告层
                     layer.open({
                         //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
@@ -255,6 +295,10 @@
                             shareMeetAdd(index, layero);
                         },
                         success: function(data){
+                            //分享者信息tab页隐藏
+                            var $li = $(data).find("#sharerMessage");
+                            $li.css("display","none");
+
                             //日期
                             renderDate(data);
                             form.render();
@@ -282,6 +326,7 @@
                     type:1,
                     title:"修改分享会信息",
                     skin: 'layui-layer-rim',
+                    id: 'LAY_sharerMeettingTable',
                     area: ['1000px','600px'],
                     content:$("#shareMeetModal").html(),
                     btn:['保存'],
@@ -289,53 +334,22 @@
                         shareMeetUpdate(index, layero);
                     },
                     success: function(data){
-                        var $form = $(data).find("form");
+
                         // 赋值
-                        var detailId = "";
-                        $.ajax({
-                            url: '/hmxy-manager/shareMeet/getShareMeetById',
-                            type: 'POST',
-                            async: false,
-                            data: {smId: params.smId},
-                            dataType: 'JSON',
-                            success: function (result) {
-                                detailId = result.detailId;
-                                formLoadDataByJson($form,result);
-                            },
-                            error: function (data) {
-                                layer.alert("系统异常,请稍后重试", {icon: 2});
-                            }
-                        });
+                        var $form = $(data).find("form");
+                        assignmentForm($form,params);
 
-                        if(isNotNull(detailId)){
-                            $.ajax({
-                                url: '/hmxy-manager/shareMeet/getShareMeetDetailById',
-                                type: 'POST',
-                                async: false,
-                                data: {detailId: detailId},
-                                dataType: 'JSON',
-                                success: function (result) {
-                                    formLoadDataByJson($form,result);
-                                },
-                                error: function (data) {
-                                    layer.alert("系统异常,请稍后重试", {icon: 2});
-                                }
-                            });
-                        }
+                        //新的table
+                        showNewTable(table,form,$form);
 
-
+                        //分享者list
+                        var select = $(data).find("select[name='sharerId']");
+                        getSharerList(select);
 
                         //日期
                         renderDate(data);
+
                         form.render();
-                        // $.post('/hmxy-manager/shareMeet/getShareMeetById', {smId: params.smId}, function (result) {
-                        //     // ShareMeetModalVue.shareMeet = $.parseJSON(result) ? $.parseJSON(result) : {},
-                        //     ShareMeetModalVue.shareMeet = result;
-                        //     // var $form = $(data).find("form");
-                        //     // formLoadDataByJson($form,result);
-                        //     form.render();
-                        //
-                        // }, 'JSON');
 
                     }
                 });
@@ -420,56 +434,6 @@
             });
         }
 
-        /**
-         * 分享会类型新增
-         */
-        function shareMeetModalTypeAddOrUpdate(data) {
-            var cfId = data.field.cfId;
-            if(null!=cfId&&undefined!=cfId&&"undefined"!=cfId&&""!=cfId){
-                $.ajax({
-                    url: '/hmxy-manager/shareMeetType/shareMeetTypeUpdate',
-                    type: 'POST',
-                    data: data.field,
-                    dataType: 'JSON',
-                    success: function (res) {
-                        if (res.code = '10000') {
-                            layer.close(layer.index);
-                            layer.msg(res.message);
-                            reloadTable();
-                        }
-                        else{
-                            layer.alert(res.message, {icon: 0});
-                        }
-                    },
-                    error: function (data) {
-                        layer.alert("系统异常,请稍后重试", {icon: 2});
-                    }
-                });
-            }else{
-                $.ajax({
-                    url: '/hmxy-manager/shareMeetType/shareMeetTypeAdd',
-                    type: 'POST',
-                    data: data.field,
-                    dataType: 'JSON',
-                    success: function (res) {
-                        if (res.code = '10000') {
-                            layer.close(layer.index);
-                            layer.msg(res.message);
-                            reloadTable();
-                        }
-                        else{
-                            layer.alert(res.message, {icon: 0});
-                        }
-                    },
-                    error: function (data) {
-                        layer.alert("系统异常,请稍后重试", {icon: 2});
-                    }
-                });
-            }
-
-
-        }
-
 
         /**
          * 刷新
@@ -516,7 +480,165 @@
             });
         }
 
+
+
+
+
     });
+    
+    function showNewTable(table,form,$form) {
+        var mettingId  = $($form).find("input[name='smId']").val();
+        if(!isNotNull(mettingId)){
+            layer.msg("分享会id不能为空");
+        }
+        var tableIndex = table.render({
+            elem: '#LAY_sharerMeettingTable .sharerMeettingTable'
+            // ,toolbar: '#toolbarSharer'
+            ,url:'/hmxy-manager/sharer/getSharerListBySaMId?mettingId='+mettingId
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,cols: [ [
+                {field:'sharerId',  title: 'ID', sort: true}
+                ,{field:'sharerName',  title: '分享者名称'}
+                ,{field:'userDecription',  title: '用户描述'}
+                ,{field:'jobDecription',  title: '工作描述'}
+                ,{field:'status',  title: '状态'}
+                ,{field:'creatorBy',  title: '创建人'}
+                ,{field:'creatorDate', title: '创建时间'}
+                ,{field:'updateBy',title: '更新人'}
+                ,{field:'updateDate', title: '更新时间'}
+                ,{fixed: 'right', title:'操作', toolbar: '#barDemo'}
+            ] ]
+        });
+
+        $(document).on('click', '#sharerAppend', function() {
+            var sharerId = $(this).parent().parent().find("select[name='sharerId']").val()
+            if(!isNotNull(sharerId)){
+                layer.msg("分享者不能为空");
+                return false;
+            }
+            $.ajax({
+                url: '/hmxy-manager/sharerMeetting/sharerMeettingAdd',
+                type: 'POST',
+                async: false,
+                data: {sharerId: sharerId,mettingId:mettingId},
+                dataType: 'JSON',
+                success: function (result) {
+                    tableIndex.reload();
+                    layer.msg(result.message);
+                },
+                error: function (data) {
+                    layer.alert("系统异常,请稍后重试", {icon: 2});
+                }
+            });
+        });
+
+        $(document).on('click', '#addSharer', function() {
+            var sharerName = $(this).parent().find("input[name='sharerName']").val()
+            if(!isNotNull(sharerName)){
+                layer.msg("分享者名称不能为空");
+                return false;
+            }
+            $.ajax({
+                url: '/hmxy-manager/sharer/sharerAdd',
+                type: 'POST',
+                async: false,
+                data: {sharerName: sharerName},
+                dataType: 'JSON',
+                success: function (result) {
+                    var select = $($form).find("select[name='sharerId']");
+                    getSharerList(select)
+                    form.render();
+                    layer.msg(result.message);
+                },
+                error: function (data) {
+                    layer.alert("系统异常,请稍后重试", {icon: 2});
+                }
+            });
+        });
+
+
+
+        // table.on('toolbar(sharerMeettingTable)', function(obj){
+        //     var checkStatus = table.checkStatus(obj.config.id);
+        //     switch(obj.event){
+        //         case 'sharerMeettingAdd':
+        //             //示范一个公告层
+        //             layer.open({
+        //                 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+        //                 type:1,
+        //                 title:"添加分享者",
+        //                 skin: 'layui-layer-rim',
+        //                 area: ['500px','300px'],
+        //                 content:$("#sharerAppendModal").html(),
+        //                 btn:['保存'],
+        //                 // yes: function(index, layero){
+        //                 //     shareMeettingAdd(index, layero);
+        //                 // },
+        //                 success: function(data){
+        //
+        //                 }
+        //             });
+        //             break;
+        //     };
+        // });
+
+    }
+    
+    function assignmentForm($form,params) {
+        var detailId = "";
+        $.ajax({
+            url: '/hmxy-manager/shareMeet/getShareMeetById',
+            type: 'POST',
+            async: false,
+            data: {smId: params.smId},
+            dataType: 'JSON',
+            success: function (result) {
+                detailId = result.detailId;
+                formLoadDataByJson($form,result);
+            },
+            error: function (data) {
+                layer.alert("系统异常,请稍后重试", {icon: 2});
+            }
+        });
+
+        if(isNotNull(detailId)){
+            $.ajax({
+                url: '/hmxy-manager/shareMeet/getShareMeetDetailById',
+                type: 'POST',
+                async: false,
+                data: {detailId: detailId},
+                dataType: 'JSON',
+                success: function (result) {
+                    formLoadDataByJson($form,result);
+                },
+                error: function (data) {
+                    layer.alert("系统异常,请稍后重试", {icon: 2});
+                }
+            });
+        }
+    }
+
+
+    function getSharerList(select) {
+        $.ajax({
+            url: '/hmxy-manager/sharer/getSharerList',
+            type: 'POST',
+            async: false,
+            // data: {smId: params.smId},
+            dataType: 'JSON',
+            success: function (result) {
+
+                $(select).children().remove();
+                $(select).append("<option value=''>请选择或输入</option>");
+                $(result).each(function () {
+                    $(select).append("<option value="+this.sharerId+">"+this.sharerName+"</option>");
+                });
+            },
+            error: function (data) {
+                layer.alert("系统异常,请稍后重试", {icon: 2});
+            }
+        });
+    }
 
 
 

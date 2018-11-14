@@ -662,8 +662,6 @@ function formLoadDataByJson($form, data) {
     $(form).find("input,textarea,select").each(function () {
         if (data.hasOwnProperty($(this).attr("name"))) {
             if($.inArray($(this).attr("type"),arr)>0){
-                console.info($(this).val());
-                console.info(data[$(this).attr("name")]);
                 if($(this).val()==data[$(this).attr("name")]){
                     $(this).prop("checked","checked");
                     return;

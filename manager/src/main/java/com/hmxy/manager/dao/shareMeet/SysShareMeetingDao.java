@@ -1,6 +1,6 @@
 package com.hmxy.manager.dao.shareMeet;
 
-import com.hmxy.dto.ShareMeetingDTO;
+import com.hmxy.dto.ShareMeetDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -18,14 +18,14 @@ public interface SysShareMeetingDao {
      * @param map
      * @return
      */
-    List<ShareMeetingDTO> shareMeetList(Map<String, Object> map);
+    List<ShareMeetDTO> shareMeetList(Map<String, Object> map);
 
     /**
      * 分享会新增
      * @param shareMeetingDTO
      * @return
      */
-    int shareMeetAdd(ShareMeetingDTO shareMeetingDTO);
+    int shareMeetAdd(ShareMeetDTO shareMeetingDTO);
 
     /**
      * 通过id获取分享会
@@ -33,12 +33,12 @@ public interface SysShareMeetingDao {
      * @param smId
      * @return
      */
-    List<ShareMeetingDTO> getShareMeetById(String smId);
+    List<ShareMeetDTO> getShareMeetById(String smId);
 
     /**
      * 分享会更新
      * @param shareMeetingDTO
      * @return
      */
-    int shareMeetUpdate(ShareMeetingDTO shareMeetingDTO);
+    int shareMeetUpdate(ShareMeetDTO shareMeetingDTO);
 }
