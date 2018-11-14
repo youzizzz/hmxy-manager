@@ -66,4 +66,19 @@
     </set>
     where mu_id = #{muId}
   </update>
+
+  <select id="getSharerMeettingList" parameterType="Map" resultMap="BaseResultMap">
+    select t.* from sys_sharer_meetting t
+    where 1=1
+    <if test="status != null and status != ''">
+      and t.status = #{status}
+    </if>
+    <if test="mettingId != null and mettingId != ''">
+      and t.metting_id = #{mettingId}
+    </if>
+    <if test="sharerId != null and sharerId != ''">
+      and t.sharer_id = #{sharerId}
+    </if>
+  </select>
+
 </mapper>

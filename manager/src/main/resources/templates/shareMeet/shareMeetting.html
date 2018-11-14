@@ -523,7 +523,9 @@
                 data: {sharerId: sharerId,mettingId:mettingId},
                 dataType: 'JSON',
                 success: function (result) {
-                    tableIndex.reload();
+                    if("10000"==result.code){
+                        tableIndex.reload();
+                    }
                     layer.msg(result.message);
                 },
                 error: function (data) {

@@ -3,6 +3,9 @@ package com.hmxy.manager.dao.shareMeet;
 import com.hmxy.dto.SharerMeettingDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @discripeion:
  * @author: liangj
@@ -16,4 +19,11 @@ public interface SysSharerMeettingDao {
      * @return
      */
     int sharerMeettingAdd(SharerMeettingDTO sharerMeettingDTO);
+
+    /**
+     * 新增分享者和分享会信息查询
+     * @param map
+     * @return
+     */
+    List<SharerMeettingDTO> getSharerMeettingList(Map<String, Object> map);
 }
