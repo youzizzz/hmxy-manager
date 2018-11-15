@@ -485,7 +485,10 @@
 
 
     });
-    
+
+    /**
+     * 新的table页面
+     */
     function showNewTable(table,form,$form) {
         var mettingId  = $($form).find("input[name='smId']").val();
         if(!isNotNull(mettingId)){
@@ -510,6 +513,7 @@
             ] ]
         });
 
+        //分享者添加点击事件
         $(document).on('click', '#sharerAppend', function() {
             var sharerId = $(this).parent().parent().find("select[name='sharerId']").val()
             if(!isNotNull(sharerId)){
@@ -534,6 +538,7 @@
             });
         });
 
+        //分享者新增点击事件
         $(document).on('click', '#addSharer', function() {
             var sharerName = $(this).parent().find("input[name='sharerName']").val()
             if(!isNotNull(sharerName)){
@@ -585,7 +590,10 @@
         // });
 
     }
-    
+
+    /**
+     * 表单赋值
+     */
     function assignmentForm($form,params) {
         var detailId = "";
         $.ajax({
@@ -621,6 +629,10 @@
     }
 
 
+    /**
+     * 获取分享者下拉信息
+     * @param select
+     */
     function getSharerList(select) {
         $.ajax({
             url: '/hmxy-manager/sharer/getSharerList',
