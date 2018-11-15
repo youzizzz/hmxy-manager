@@ -46,7 +46,152 @@
         <table class="layui-hide" id="shareMeetTable" lay-filter="shareMeetTable"></table>
     </div>
     <!-- 新增修改页面 -->
-    <div class="layui-row" id="shareMeetModal" style="display: none">
+    <!--<div class="layui-row" id="shareMeetModal" style="display: none">-->
+        <!--<form class="layui-form" lay-filter="formTestFilter" id="shareMeetModal_form">-->
+            <!--<div class="layui-tab layui-tab-brief">-->
+                <!--<ul class="layui-tab-title">-->
+                    <!--<li class="layui-this">基本信息</li>-->
+                    <!--<li>详情</li>-->
+                    <!--<li id="sharerMessage">分享者关联信息</li>-->
+                <!--</ul>-->
+                <!--<div class="layui-tab-content">-->
+
+                    <!--<div class="layui-tab-item layui-show">-->
+                        <!--<div class="layui-row">-->
+                            <!--<input type="text" name="smId" hidden="hidden">-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">标题</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="title" autocomplete="off" placeholder="请输入标题"-->
+                                           <!--v-model="shareMeet.title" class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">分享会类型</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<select name="categoryId" lay-search="">-->
+                                        <!--<option value=""></option>-->
+                                        <!--<option v-for="(shareMeetType, index) in shareMeetTypeList"-->
+                                                <!--:value="shareMeetType.cfId">{{ shareMeetType.categoryName }}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">区域</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<select name="areaId">-->
+                                        <!--<option value=""></option>-->
+                                        <!--<option v-for="(area, index) in areaList" :value="area.areId">{{ area.cityName-->
+                                            <!--}}-->
+                                        <!--</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">开始分享时间</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="shareStartTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" lay-filter="dateTime">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">结束分享时间</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="shareEndTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" lay-filter="dateTime">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">费用</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="charge" autocomplete="off" placeholder="请输入费用"-->
+                                           <!--class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm8">-->
+                                <!--<label class="layui-form-label">图片链接</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="logoUrl" autocomplete="off" placeholder="请输入图片链接"-->
+                                           <!--class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-tab-item">-->
+                        <!--<div class="layui-row">-->
+                            <!--<input type="text" name="desId" hidden="hidden">-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">原始链接</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="originalLink" autocomplete="off" placeholder="请输入原始链接"-->
+                                           <!--class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label">详情</label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="despition" autocomplete="off" placeholder="请输入详情"-->
+                                           <!--class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="layui-tab-item">-->
+                        <!--<div class="layui-row">-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label"><a class="layui-btn layui-btn-sm"  id="sharerAppend">添加分享者</a></label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<select name="sharerId" lay-search>-->
+                                        <!--<option value="">请选择或输入</option>-->
+                                    <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+                            <!--<div class="layui-col-sm4">-->
+                                <!--<label class="layui-form-label"><a class="layui-btn layui-btn-sm"  id="addSharer">新增分享者</a></label>-->
+                                <!--<div class="layui-input-block">-->
+                                    <!--<input type="text" name="sharerName" autocomplete="off" placeholder="请输入分享者名称"-->
+                                           <!--class="layui-input">-->
+                                <!--</div>-->
+                            <!--</div>-->
+                        <!--</div>-->
+                        <!--<table class="layui-hide sharerMeettingTable" lay-filter="sharerMeettingTable"></table>-->
+                    <!--</div>-->
+
+
+                <!--</div>-->
+            <!--</div>-->
+        <!--</form>-->
+    <!--</div>-->
+    <!-- 添加分享者页面 -->
+    <!--<div class="layui-row" id="sharerAppendModal" style="display: none">-->
+        <!--<div class="layui-row">-->
+            <!--<form class="layui-form">-->
+                <!--<div class="layui-col-sm8">-->
+                    <!--<label class="layui-form-label">分享者</label>-->
+                    <!--<div class="layui-input-block">-->
+                        <!--<select name="sharerId" lay-search>-->
+                        <!--</select>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</form>-->
+
+        <!--</div>-->
+    <!--</div>-->
+
+</div>
+
+<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
+<script th:src="@{/hmxy-manager/common/common.js}" charset="utf-8"></script>
+<script th:src="@{/hmxy-manager/common/vue.js}" charset="utf-8"></script>
+<script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
+<script type="text/html" id="toolbarDemo">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-sm" lay-event="shareMeetAdd">新增</button>
+    </div>
+</script>
+<script type="text/html" id="shareMeetModal">
+    <div class="layui-row" id="shareMeetModal22">
         <form class="layui-form" lay-filter="formTestFilter" id="shareMeetModal_form">
             <div class="layui-tab layui-tab-brief">
                 <ul class="layui-tab-title">
@@ -58,7 +203,7 @@
 
                     <div class="layui-tab-item layui-show">
                         <div class="layui-row">
-                            <input type="text" name="smId" hidden="hidden">
+                            <input type="text" name="smId" v-model="shareMeet.smId" hidden="hidden">
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">标题</label>
                                 <div class="layui-input-block">
@@ -69,22 +214,19 @@
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">分享会类型</label>
                                 <div class="layui-input-block">
-                                    <select name="categoryId" lay-search="">
+                                    <select name="categoryId" v-model="shareMeet.categoryId">
                                         <option value=""></option>
                                         <option v-for="(shareMeetType, index) in shareMeetTypeList"
-                                                :value="shareMeetType.cfId">{{ shareMeetType.categoryName }}
-                                        </option>
+                                                :value="shareMeetType.cfId">{{shareMeetType.categoryName}}</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">区域</label>
                                 <div class="layui-input-block">
-                                    <select name="areaId">
+                                    <select name="areaId" v-model="shareMeet.areaId">
                                         <option value=""></option>
-                                        <option v-for="(area, index) in areaList" :value="area.areId">{{ area.cityName
-                                            }}
-                                        </option>
+                                        <option v-for="(area, index) in areaList" :value="area.areId">{{area.cityName}}</option>
                                     </select>
                                 </div>
                             </div>
@@ -92,27 +234,27 @@
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">开始分享时间</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="shareStartTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" lay-filter="dateTime">
+                                    <input type="text" name="shareStartTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" v-model="shareMeet.shareStartTime" class="layui-input" lay-filter="dateTime">
                                 </div>
                             </div>
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">结束分享时间</label>
                                 <div class="layui-input-block">
-                                    <input type="text" name="shareEndTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" class="layui-input" lay-filter="dateTime">
+                                    <input type="text" name="shareEndTime" lay-verify="date" placeholder="yyyy-MM-dd HH:mm:ss" autocomplete="off" v-model="shareMeet.shareEndTime" class="layui-input" lay-filter="dateTime">
                                 </div>
                             </div>
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">费用</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="charge" autocomplete="off" placeholder="请输入费用"
-                                           class="layui-input">
+                                           v-model="shareMeet.charge" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-col-sm8">
                                 <label class="layui-form-label">图片链接</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="logoUrl" autocomplete="off" placeholder="请输入图片链接"
-                                           class="layui-input">
+                                           v-model="shareMeet.logoUrl" class="layui-input">
                                 </div>
                             </div>
 
@@ -120,19 +262,19 @@
                     </div>
                     <div class="layui-tab-item">
                         <div class="layui-row">
-                            <input type="text" name="desId" hidden="hidden">
+                            <input type="text" name="desId" v-model="shareMeetDetail.desId" hidden="hidden">
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">原始链接</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="originalLink" autocomplete="off" placeholder="请输入原始链接"
-                                           class="layui-input">
+                                           v-model="shareMeetDetail.originalLink" class="layui-input">
                                 </div>
                             </div>
                             <div class="layui-col-sm4">
                                 <label class="layui-form-label">详情</label>
                                 <div class="layui-input-block">
                                     <input type="text" name="despition" autocomplete="off" placeholder="请输入详情"
-                                           class="layui-input">
+                                           v-model="shareMeetDetail.despition" class="layui-input">
                                 </div>
                             </div>
                         </div>
@@ -163,32 +305,6 @@
             </div>
         </form>
     </div>
-    <!-- 添加分享者页面 -->
-    <!--<div class="layui-row" id="sharerAppendModal" style="display: none">-->
-        <!--<div class="layui-row">-->
-            <!--<form class="layui-form">-->
-                <!--<div class="layui-col-sm8">-->
-                    <!--<label class="layui-form-label">分享者</label>-->
-                    <!--<div class="layui-input-block">-->
-                        <!--<select name="sharerId" lay-search>-->
-                        <!--</select>-->
-                    <!--</div>-->
-                <!--</div>-->
-            <!--</form>-->
-
-        <!--</div>-->
-    <!--</div>-->
-
-</div>
-
-<script src="https://www.tangyouzhi.com/layui-v2.2.6/layui/jquery.js"></script>
-<script th:src="@{/hmxy-manager/common/common.js}" charset="utf-8"></script>
-<script th:src="@{/hmxy-manager/common/vue.js}" charset="utf-8"></script>
-<script src="https://hanlei525.github.io/layui-v2.4.3/layui-v2.4.5/layui.js" charset="utf-8"></script>
-<script type="text/html" id="toolbarDemo">
-    <div class="layui-btn-container">
-        <button class="layui-btn layui-btn-sm" lay-event="shareMeetAdd">新增</button>
-    </div>
 </script>
 <!--<script type="text/html" id="toolbarSharer">-->
     <!--<div class="layui-btn-container">-->
@@ -203,41 +319,41 @@
 
 
 <script>
-    var ShareMeetModalVue = new Vue({
-        el: '#shareMeetModal',
-        data: {
-            selected: 0,
-            shareMeetTypeList: [],
-            areaList: [],
-            // orderInfo: $.parseJSON($("#orderJson_hidden").val()) ? $.parseJSON($("#orderJson_hidden").val()) : {},
-            shareMeet:{},
-        },
-        mounted: function () {
-            this.getShareMeet();
-            this.getShareMeetTypeList();
-            this.getAreaList();
-        },
-        methods: {
-            getShareMeet: function () {
-                var vm = this;
-                $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
-                    vm.shareMeet = response;
-                }, 'json');
-            },
-            getShareMeetTypeList: function () {
-                var vm = this;
-                $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
-                    vm.shareMeetTypeList = response;
-                }, 'json');
-            },
-            getAreaList: function () {
-                var vm = this;
-                $.post('/hmxy-manager/area/getAreaList', {}, function (response) {
-                    vm.areaList = response;
-                }, 'json');
-            }
-        }
-    });
+    // var ShareMeetModalVue = new Vue({
+    //     el: '#shareMeetModal',
+    //     data: {
+    //         selected: 0,
+    //         shareMeetTypeList: [],
+    //         areaList: [],
+    //         // orderInfo: $.parseJSON($("#orderJson_hidden").val()) ? $.parseJSON($("#orderJson_hidden").val()) : {},
+    //         shareMeet:{},
+    //     },
+    //     mounted: function () {
+    //         this.getShareMeet();
+    //         this.getShareMeetTypeList();
+    //         this.getAreaList();
+    //     },
+    //     methods: {
+    //         getShareMeet: function () {
+    //             var vm = this;
+    //             $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
+    //                 vm.shareMeet = response;
+    //             }, 'json');
+    //         },
+    //         getShareMeetTypeList: function () {
+    //             var vm = this;
+    //             $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
+    //                 vm.shareMeetTypeList = response;
+    //             }, 'json');
+    //         },
+    //         getAreaList: function () {
+    //             var vm = this;
+    //             $.post('/hmxy-manager/area/getAreaList', {}, function (response) {
+    //                 vm.areaList = response;
+    //             }, 'json');
+    //         }
+    //     }
+    // });
 
 
 
@@ -298,7 +414,8 @@
                             //分享者信息tab页隐藏
                             var $li = $(data).find("#sharerMessage");
                             $li.css("display","none");
-
+                            // 赋值
+                            assignmentForm(null,form);
                             //日期
                             renderDate(data);
                             form.render();
@@ -336,11 +453,11 @@
                     success: function(data){
 
                         // 赋值
-                        var $form = $(data).find("form");
-                        assignmentForm($form,params);
+                        assignmentForm(params.smId,form);
 
                         //新的table
-                        showNewTable(table,form,$form);
+                        var $form = $(data).find("form");
+                        showNewTable(table,form,$form,params.smId);
 
                         //分享者list
                         var select = $(data).find("select[name='sharerId']");
@@ -489,8 +606,8 @@
     /**
      * 新的table页面
      */
-    function showNewTable(table,form,$form) {
-        var mettingId  = $($form).find("input[name='smId']").val();
+    function showNewTable(table,form,$form,smId) {
+        var mettingId  = smId;
         if(!isNotNull(mettingId)){
             layer.msg("分享会id不能为空");
         }
@@ -594,38 +711,87 @@
     /**
      * 表单赋值
      */
-    function assignmentForm($form,params) {
-        var detailId = "";
-        $.ajax({
-            url: '/hmxy-manager/shareMeet/getShareMeetById',
-            type: 'POST',
-            async: false,
-            data: {smId: params.smId},
-            dataType: 'JSON',
-            success: function (result) {
-                detailId = result.detailId;
-                formLoadDataByJson($form,result);
+    function assignmentForm(smId,form) {
+
+        var ShareMeetModalVue = new Vue({
+            el: '#shareMeetModal22',
+            data: {
+                selected: 0,
+                shareMeetTypeList: [],
+                areaList: [],
+                shareMeet:{},
+                shareMeetDetail:{},
+                sharerList:{}
             },
-            error: function (data) {
-                layer.alert("系统异常,请稍后重试", {icon: 2});
+            mounted: function () {
+                if(isNotNull(smId)){
+                    this.getShareMeet();
+                }
+                this.getShareMeetTypeList();
+                this.getAreaList();
+            },
+            methods: {
+                getShareMeet: function () {
+                    var vm = this;
+                    var detailId = "";
+                    $.ajax({
+                        url: '/hmxy-manager/shareMeet/getShareMeetById',
+                        type: 'POST',
+                        async: false,
+                        data: {smId: smId},
+                        dataType: 'JSON',
+                        success: function (result) {
+                            detailId = result.detailId;
+                            vm.shareMeet = result;
+                            vm.$nextTick(function () {
+                                form.render();
+                            });
+                        },
+                        error: function () {
+                            layer.alert("系统异常,请稍后重试", {icon: 2});
+                        }
+                    });
+
+                    if(isNotNull(detailId)){
+                        $.ajax({
+                            url: '/hmxy-manager/shareMeet/getShareMeetDetailById',
+                            type: 'POST',
+                            async: false,
+                            data: {detailId: detailId},
+                            dataType: 'JSON',
+                            success: function (result) {
+                                vm.shareMeetDetail = result;
+                                vm.$nextTick(function () {
+                                    form.render();
+                                });
+                            },
+                            error: function () {
+                                layer.alert("系统异常,请稍后重试", {icon: 2});
+                            }
+                        });
+                    }
+                },
+                getShareMeetTypeList: function () {
+                    var vm = this;
+                    $.post('/hmxy-manager/shareMeetType/getShareMeetTypeList', {}, function (response) {
+                        vm.shareMeetTypeList = response;
+                        vm.$nextTick(function () {
+                            form.render();
+                            });
+                    }, 'json');
+                },
+                getAreaList: function () {
+                    var vm = this;
+                    $.post('/hmxy-manager/area/getAreaList', {}, function (response) {
+                        vm.areaList = response;
+                        vm.$nextTick(function () {
+                            form.render();
+                        });
+                    }, 'json');
+                }
             }
         });
 
-        if(isNotNull(detailId)){
-            $.ajax({
-                url: '/hmxy-manager/shareMeet/getShareMeetDetailById',
-                type: 'POST',
-                async: false,
-                data: {detailId: detailId},
-                dataType: 'JSON',
-                success: function (result) {
-                    formLoadDataByJson($form,result);
-                },
-                error: function (data) {
-                    layer.alert("系统异常,请稍后重试", {icon: 2});
-                }
-            });
-        }
     }
 
 
