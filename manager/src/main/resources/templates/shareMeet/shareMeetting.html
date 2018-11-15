@@ -568,18 +568,7 @@
             return queryParams;
         }
 
-        /**
-         * 格式化状态
-         */
-        function formatStatus(row) {
-            var val = row.status;
-            if ("0" == val) {
-                val = "有效"
-            } else if ("1" == val) {
-                val = "失效"
-            }
-            return val;
-        }
+
 
 
         /**
@@ -621,7 +610,7 @@
                 ,{field:'sharerName',  title: '分享者名称'}
                 ,{field:'userDecription',  title: '用户描述'}
                 ,{field:'jobDecription',  title: '工作描述'}
-                ,{field:'status',  title: '状态'}
+                ,{field:'status',  title: '状态',templet: formatStatus}
                 ,{field:'creatorBy',  title: '创建人'}
                 ,{field:'creatorDate', title: '创建时间'}
                 ,{field:'updateBy',title: '更新人'}
@@ -819,7 +808,18 @@
             }
         });
     }
-
+    /**
+     * 格式化状态
+     */
+    function formatStatus(row) {
+        var val = row.status;
+        if ("0" == val) {
+            val = "有效"
+        } else if ("1" == val) {
+            val = "失效"
+        }
+        return val;
+    }
 
 
 
