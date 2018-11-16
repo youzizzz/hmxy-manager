@@ -35,7 +35,7 @@
         <if test="null!= cityName and ''!= cityName">
             AND a.city_name=#{cityName}
         </if>
-        <if test="''!= status">
+        <if test="''!= status and null!= status">
             AND a.status=#{status}
         </if>
     </select>

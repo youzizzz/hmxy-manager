@@ -42,7 +42,7 @@ public class AreaServiceImpl implements AreaService {
      * @param pageInfoResult
      * @param areaDTO
      * @return
-     * @author liangj
+     * @author tangyouzhi
      */
     @Override
     public PageInfo<AreaDTO> AreaPage(PageInfo<AreaDTO> pageInfoResult, AreaDTO areaDTO) {

@@ -14,11 +14,11 @@ import java.util.List;
  */
 public interface AreaService {
     /**
-     * 分享会类型分页查询
+     * 地址分页查询
      *
      * @param pageInfoResult
      * @return
-     * @author liangj
+     * @author tangyouzhi
      */
     PageInfo<AreaDTO> AreaPage(PageInfo<AreaDTO> pageInfoResult, AreaDTO areaDTO);
 
